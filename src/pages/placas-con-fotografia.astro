@@ -1,0 +1,80 @@
+---
+import Producto from '../layouts/Producto.astro';
+import Aparte from '../components/Aparte.astro';
+import { productoPorId } from '../data/productos';
+import { porId } from '../data/trabajos';
+
+const producto = productoPorId('fotografia');
+const galeria = ['placa-07', 'placa-04', 'placa-06'].map(porId);
+---
+
+<Producto
+  producto={producto}
+  titulo="Placa con Foto para Tumba, Tegucigalpa | Arte y Recuerdo"
+  descripcion="Placas para lápida con fotografía incrustada en mármol, en medallón ovalado o rectangular. Diseño personalizado en Tegucigalpa. WhatsApp 9751-3752."
+  entrada="Un medallón con la fotografía de su ser querido, incrustado en el mármol y preparado para resistir el sol y la lluvia del cementerio."
+  og="/og/placas-con-fotografia.jpg"
+  galeria={galeria}
+  tituloGaleria="Placas con fotografía de nuestro taller"
+>
+  <h2>El rostro que la familia reconoce</h2>
+  <p>
+    Una placa con fotografía cambia la visita al cementerio. El nombre y las fechas cuentan una
+    parte; la cara de la persona cuenta el resto, y los nietos que no alcanzaron a conocerla
+    también la reconocen. Por eso cada vez más familias nos piden incluirla.
+  </p>
+
+  <h2>Ovalado o rectangular</h2>
+  <p>
+    El medallón ovalado es el clásico: va arriba, a un lado del nombre, y acompaña bien a la cruz o
+    al crucifijo grabado. El rectangular permite una foto más grande y se usa cuando la imagen
+    tiene fondo —la casa, el patio, el trabajo de la persona— y la familia quiere conservarlo.
+    Ambos se incrustan en el mármol, al ras, para que no se desprendan.
+  </p>
+
+  <h2>Qué fotografía mandar</h2>
+  <p>
+    No se preocupe si la foto no es profesional. Trabajamos con lo que la familia tenga; lo que
+    importa es la calidad del archivo:
+  </p>
+  <ul>
+    <li>Mande la foto original desde la galería del teléfono, sin recortarla y sin filtros.</li>
+    <li>Si es una foto impresa, tómele una fotografía de frente, con buena luz y sin sombras.</li>
+    <li>
+      Procure que el rostro se vea claro. Si está en grupo, dígannos cuál es la persona y nosotros
+      la recortamos.
+    </li>
+    <li>
+      Puede mandarnos varias y la escogemos juntos. Usted ve el resultado antes de que se
+      fabrique.
+    </li>
+  </ul>
+
+  <h2>Cómo se prepara</h2>
+  <p>
+    La imagen se trata para que aguante la intemperie: se ajusta el contraste para que no se
+    aplane con el sol, se recorta a la forma del medallón y se monta protegida. Después se incrusta
+    en la placa de mármol verde o negro, junto al grabado dorado o plateado del nombre, las fechas
+    y el versículo.
+  </p>
+
+  <h2>Qué más lleva la placa</h2>
+  <p>
+    Lo mismo que cualquier otra de nuestras
+    <a href="/placas-de-marmol/">placas de mármol</a>: nombre completo en cursiva o en mayúsculas,
+    las dos fechas, la frase o el versículo —San Juan 11:25, el Salmo 23, Gálatas 2:20— y la
+    iconografía que elijan: paloma, ángel, manos orando, rosas o bordes ornamentales. También puede
+    acompañarse de una <a href="/cruces-de-metal/">cruz de metal</a> y de un
+    <a href="/floreros-y-flores/">florero</a> a juego.
+  </p>
+
+  <h2>Privacidad</h2>
+  <p>
+    La fotografía se usa únicamente para fabricar la placa de su familia. No la publicamos en redes
+    ni en este sitio sin que usted nos lo autorice; por eso en nuestra
+    <a href="/trabajos/">galería de trabajos</a> no aparecen los nombres de las personas
+    fallecidas.
+  </p>
+
+  <Aparte slot="aparte" producto="fotografia" />
+</Producto>

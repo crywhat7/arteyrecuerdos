@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://arteyrecuerdo.hn/sitemap-index.xml

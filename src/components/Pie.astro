@@ -1,0 +1,258 @@
+---
+import Monograma from './Monograma.astro';
+import Icono from './Icono.astro';
+import { NAV, NEGOCIO, enlaceWhatsApp, MENSAJES_WHATSAPP } from '../data/sitio';
+
+const anio = new Date().getFullYear();
+const productos = NAV.slice(0, 5);
+const resto = NAV.slice(5);
+---
+
+<section class="cta-final marmol">
+  <div class="contenedor cta-int">
+    <p class="etiqueta rev">Cotice sin compromiso</p>
+    <h2 class="titulo rev" style="--i:1">
+      Cuéntenos a quién quiere <span class="oro-brillo">honrar</span>.
+    </h2>
+    <p class="entrada rev" style="--i:2">
+      Escríbanos por WhatsApp con el nombre, las fechas y la frase que desea. Le preparamos el
+      diseño y se lo mostramos antes de fabricar.
+    </p>
+    <div class="acciones rev" style="--i:3">
+      <a class="btn" href={enlaceWhatsApp(MENSAJES_WHATSAPP.general)} target="_blank" rel="noopener">
+        <Icono nombre="whatsapp" tamano={17} /> Cotizar por WhatsApp
+      </a>
+      <a class="btn btn-linea" href={NEGOCIO.telefonoHref}>
+        <Icono nombre="telefono" tamano={16} /> Llamar al {NEGOCIO.telefono}
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="pie">
+  <div class="contenedor pie-int">
+    <div class="pie-marca">
+      <Monograma tamano={64} />
+      <p class="firma pie-firma">Arte y Recuerdo</p>
+      <p class="pie-lema">
+        Placas para lápida, cruces de metal forjado, floreros y arreglos florales. Hechos a mano en
+        Tegucigalpa.
+      </p>
+      <a class="red" href={NEGOCIO.facebook} target="_blank" rel="noopener me">
+        <Icono nombre="facebook" tamano={18} />
+        <span>Facebook</span>
+      </a>
+    </div>
+
+    <div class="pie-col">
+      <h2 class="pie-tit">Productos</h2>
+      <ul>
+        {productos.map((n) => <li><a href={n.href}>{n.texto}</a></li>)}
+      </ul>
+    </div>
+
+    <div class="pie-col">
+      <h2 class="pie-tit">El taller</h2>
+      <ul>
+        {resto.map((n) => <li><a href={n.href}>{n.texto}</a></li>)}
+      </ul>
+    </div>
+
+    <div class="pie-col pie-contacto">
+      <h2 class="pie-tit">Contacto</h2>
+      <address>
+        <p class="dato">
+          <Icono nombre="pin" tamano={16} />
+          <span>
+            {NEGOCIO.direccion.calle}<br />
+            {NEGOCIO.direccion.ciudad}, {NEGOCIO.direccion.departamento}<br />
+            {NEGOCIO.direccion.pais}
+          </span>
+        </p>
+        <p class="dato">
+          <Icono nombre="telefono" tamano={16} />
+          <a href={NEGOCIO.telefonoHref}>{NEGOCIO.telefono}</a>
+        </p>
+        <p class="dato">
+          <Icono nombre="whatsapp" tamano={16} />
+          <a href={enlaceWhatsApp(MENSAJES_WHATSAPP.general)} target="_blank" rel="noopener">
+            WhatsApp
+          </a>
+        </p>
+      </address>
+      <h2 class="pie-tit pie-tit-2">Horario</h2>
+      <ul class="horario">
+        {
+          NEGOCIO.horario.map((h) => (
+            <li>
+              <span>{h.dias}</span>
+              <span>{h.horas}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="enlace mapa" href={NEGOCIO.mapaUrl} target="_blank" rel="noopener">
+        Ver en el mapa <Icono nombre="flecha" tamano={15} />
+      </a>
+    </div>
+  </div>
+
+  <div class="contenedor">
+    <hr class="filete pie-filete" />
+    <div class="pie-legal">
+      <p>© {anio} {NEGOCIO.nombre}. Todos los derechos reservados.</p>
+      <p>Atendemos {NEGOCIO.zonas.slice(0, 3).join(', ')} y alrededores.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .cta-final {
+    padding-block: var(--aire);
+    border-top: 1px solid var(--borde);
+  }
+  .cta-int {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 1.1rem;
+    max-width: 44rem;
+  }
+  .cta-int .acciones {
+    margin-top: 0.8rem;
+  }
+
+  .pie {
+    background: #080808;
+    border-top: 1px solid var(--borde);
+    padding-block: var(--aire-sm) 2rem;
+    font-size: 0.9375rem;
+  }
+  .pie-int {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .pie-firma {
+    font-size: 2rem;
+    color: var(--oro-claro);
+    margin-top: 0.9rem;
+  }
+  .pie-lema {
+    color: var(--txt-3);
+    max-width: 28ch;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+  .red {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.2rem;
+    color: var(--txt-2);
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.3s var(--quart);
+  }
+  .red:hover {
+    color: var(--oro-claro);
+  }
+
+  .pie-tit {
+    font-family: var(--sans);
+    font-size: var(--t-xs);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--oro-texto);
+    margin-bottom: 1rem;
+  }
+  .pie-tit-2 {
+    margin-top: 1.8rem;
+  }
+  .pie-col ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .pie-col a {
+    color: var(--txt-2);
+    text-decoration: none;
+    transition: color 0.3s var(--quart);
+  }
+  .pie-col a:hover {
+    color: var(--oro-claro);
+  }
+
+  address {
+    font-style: normal;
+    display: grid;
+    gap: 0.7rem;
+  }
+  .dato {
+    display: flex;
+    gap: 0.6rem;
+    color: var(--txt-2);
+    line-height: 1.5;
+  }
+  .dato :global(svg) {
+    color: var(--oro);
+    margin-top: 0.2rem;
+  }
+  .dato a {
+    color: var(--txt-2);
+    text-decoration: none;
+  }
+  .dato a:hover {
+    color: var(--oro-claro);
+  }
+
+  .horario {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.45rem;
+    color: var(--txt-2);
+    font-size: 0.875rem;
+  }
+  .horario li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: 20rem;
+  }
+  .horario span:last-child {
+    color: var(--txt-3);
+    text-align: right;
+  }
+  .mapa {
+    margin-top: 1.2rem;
+    font-size: var(--t-xs);
+  }
+
+  .pie-filete {
+    margin-block: 2.5rem 1.2rem;
+    opacity: 0.5;
+  }
+  .pie-legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+    color: var(--txt-3);
+    font-size: 0.8125rem;
+  }
+
+  @media (min-width: 40rem) {
+    .pie-int {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 64rem) {
+    .pie-int {
+      grid-template-columns: 1.4fr 1fr 1fr 1.3fr;
+      gap: 3rem;
+    }
+  }
+</style>

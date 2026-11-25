@@ -1,0 +1,134 @@
+---
+import Icono from './Icono.astro';
+import type { NombreIcono } from '../lib/iconos';
+
+interface Paso {
+  icono: NombreIcono;
+  titulo: string;
+  texto: string;
+}
+
+const PASOS: Paso[] = [
+  {
+    icono: 'escribir',
+    titulo: 'Escríbanos',
+    texto: 'Un mensaje por WhatsApp o una llamada. Le respondemos en horario de taller.',
+  },
+  {
+    icono: 'datos',
+    titulo: 'Envíe los datos',
+    texto: 'Nombre completo, fechas, la frase o el versículo y, si desea, una fotografía.',
+  },
+  {
+    icono: 'aprobar',
+    titulo: 'Aprobamos el diseño',
+    texto: 'Le mostramos cómo quedará la placa. Se cambia todo lo que haga falta, sin costo.',
+  },
+  {
+    icono: 'fabricar',
+    titulo: 'La fabricamos',
+    texto: 'Cortamos el mármol y grabamos a mano en dorado o plateado, pieza por pieza.',
+  },
+  {
+    icono: 'entregar',
+    titulo: 'Se la entregamos',
+    texto: 'Lista para colocar. Le avisamos apenas esté terminada.',
+  },
+];
+
+interface Props {
+  titulo?: string;
+  class?: string;
+}
+const { titulo = 'Así trabajamos', class: clase = '' } = Astro.props;
+---
+
+<section class={`seccion proceso ${clase}`} aria-labelledby="proceso-tit">
+  <div class="contenedor">
+    <p class="etiqueta rev">El proceso</p>
+    <h2 class="titulo rev" id="proceso-tit" style="--i:1">{titulo}</h2>
+    <hr class="filete rev-filete proceso-filete" style="--i:2" />
+
+    <ol class="pasos">
+      {
+        PASOS.map((p, i) => (
+          <li class="paso rev" style={`--i:${i}`}>
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="ico">
+              <Icono nombre={p.icono} tamano={34} trazo={1} />
+            </span>
+            <h3>{p.titulo}</h3>
+            <p>{p.texto}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .proceso-filete {
+    margin-block: 1.6rem 3rem;
+    max-width: 10rem;
+  }
+  .pasos {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 2.2rem 1.5rem;
+    counter-reset: paso;
+  }
+  .paso {
+    position: relative;
+    padding-top: 1.6rem;
+    border-top: 1px solid var(--borde);
+  }
+  .num {
+    position: absolute;
+    top: 1.5rem;
+    right: 0;
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    color: var(--oro);
+    letter-spacing: 0.06em;
+  }
+  .ico {
+    display: block;
+    color: var(--oro);
+    margin-bottom: 1rem;
+  }
+  .paso h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.4rem;
+  }
+  .paso p {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--txt-3);
+    max-width: 28ch;
+  }
+  .claro .paso p {
+    color: var(--txt-claro-2);
+  }
+  .claro .ico {
+    color: var(--oro-oscuro);
+  }
+  .claro .num {
+    color: var(--oro-oscuro);
+  }
+  .claro .paso {
+    border-top-color: color-mix(in srgb, var(--txt-claro) 14%, transparent);
+  }
+
+  @media (min-width: 38rem) {
+    .pasos {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 60rem) {
+    .pasos {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.25rem;
+    }
+  }
+</style>

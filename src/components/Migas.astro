@@ -1,0 +1,53 @@
+---
+import type { Miga } from '../lib/schema';
+
+interface Props {
+  migas: Miga[];
+}
+const { migas } = Astro.props;
+---
+
+<nav class="migas" aria-label="Ruta de navegación">
+  <ol>
+    {
+      migas.map((m, i) => (
+        <li>
+          {i < migas.length - 1 ? (
+            <a href={m.href}>{m.nombre}</a>
+          ) : (
+            <span aria-current="page">{m.nombre}</span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  .migas ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    font-size: 0.8125rem;
+    color: var(--txt-3);
+  }
+  li + li::before {
+    content: '/';
+    margin-right: 0.5rem;
+    color: var(--oro);
+  }
+  a {
+    color: var(--txt-2);
+    text-decoration: none;
+    transition: color 0.3s var(--quart);
+  }
+  a:hover {
+    color: var(--oro-claro);
+  }
+  [aria-current='page'] {
+    color: var(--oro-texto);
+  }
+</style>

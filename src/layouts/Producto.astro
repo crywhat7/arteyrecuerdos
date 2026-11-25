@@ -1,0 +1,245 @@
+---
+import { Picture } from 'astro:assets';
+import Base from './Base.astro';
+import Migas from '../components/Migas.astro';
+import Icono from '../components/Icono.astro';
+import Marcador from '../components/Marcador.astro';
+import TarjetaProducto from '../components/TarjetaProducto.astro';
+import Proceso from '../components/Proceso.astro';
+import Galeria from '../components/Galeria.astro';
+import Formulario from '../components/Formulario.astro';
+import { relacionados, type Producto } from '../data/productos';
+import { enlaceWhatsApp } from '../data/sitio';
+import { servicio } from '../lib/schema';
+import type { Trabajo } from '../data/trabajos';
+
+interface Props {
+  producto: Producto;
+  titulo: string;
+  descripcion: string;
+  /** Frase de entrada bajo el H1. */
+  entrada: string;
+  og?: string;
+  /** Trabajos reales que ilustran esta página. */
+  galeria?: Trabajo[];
+  tituloGaleria?: string;
+}
+
+const {
+  producto,
+  titulo,
+  descripcion,
+  entrada,
+  og = '/og/inicio.jpg',
+  galeria = [],
+  tituloGaleria = 'Trabajos de este tipo',
+} = Astro.props;
+
+const migas = [
+  { nombre: 'Inicio', href: '/' },
+  { nombre: producto.nombre, href: producto.href },
+];
+const otros = relacionados(producto.id);
+---
+
+<Base
+  titulo={titulo}
+  descripcion={descripcion}
+  og={og}
+  migas={migas}
+  mensajeWhatsApp={producto.mensajeWhatsApp}
+  schema={[servicio(producto.titulo, descripcion, producto.href, og)]}
+>
+  <section class="cab-prod marmol">
+    <div class="contenedor cab-int">
+      <div class="cab-txt">
+        <Migas migas={migas} />
+        <h1 class="titulo entra" style="--d:100ms">{producto.titulo}</h1>
+        <hr class="filete entra-filete cab-filete" style="--d:320ms" />
+        <p class="entrada entra" style="--d:400ms">{entrada}</p>
+        <div class="acciones entra" style="--d:520ms">
+          <a class="btn" href={enlaceWhatsApp(producto.mensajeWhatsApp)} target="_blank" rel="noopener">
+            <Icono nombre="whatsapp" tamano={17} /> Cotizar por WhatsApp
+          </a>
+          <a class="btn btn-linea" href="#cotizar">Pedir cotización</a>
+        </div>
+      </div>
+
+      <figure class="cab-foto entra-suave" style="--d:220ms">
+        {
+          producto.imagen ? (
+            <Picture
+              src={producto.imagen}
+              alt={producto.alt}
+              widths={[480, 720, 960]}
+              sizes="(min-width: 64rem) 30rem, 92vw"
+              formats={['avif']}
+            fallbackFormat="webp"
+              loading="eager"
+              fetchpriority="high"
+              decoding="sync"
+            />
+          ) : (
+            <Marcador icono={producto.icono} texto={producto.nombre} proporcion="5 / 4" />
+          )
+        }
+      </figure>
+    </div>
+  </section>
+
+  <section class="seccion texto">
+    <div class="contenedor texto-int">
+      <div class="prosa">
+        <slot />
+      </div>
+      <aside class="aparte">
+        <slot name="aparte" />
+      </aside>
+    </div>
+  </section>
+
+  {
+    galeria.length > 0 && (
+      <section class="seccion claro" aria-labelledby="gal-prod">
+        <div class="contenedor">
+          <p class="etiqueta rev">De nuestro taller</p>
+          <h2 class="titulo rev" id="gal-prod" style="--i:1">
+            {tituloGaleria}
+          </h2>
+          <hr class="filete rev-filete gal-filete" style="--i:2" />
+          <Galeria trabajos={galeria} id={`gal-${producto.id}`} />
+          <div class="acciones gal-acc rev">
+            <a class="btn btn-linea" href="/trabajos/">
+              Ver la galería completa
+            </a>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <Proceso titulo="Pedirla es sencillo" />
+
+  <section class="seccion otros" aria-labelledby="otros-tit">
+    <div class="contenedor">
+      <p class="etiqueta rev">También fabricamos</p>
+      <h2 class="titulo rev" id="otros-tit" style="--i:1">Otros trabajos del taller</h2>
+      <hr class="filete rev-filete gal-filete" style="--i:2" />
+      <div class="rejilla-otros">
+        {otros.map((p, i) => <TarjetaProducto producto={p} indice={i} />)}
+        <article class="tarjeta-txt-sola rev" style="--i:2">
+          <h3>¿No sabe por dónde empezar?</h3>
+          <p>
+            En <a href="/como-pedir/">cómo pedir su placa</a> le explicamos paso a paso qué datos
+            necesitamos y cuánto se tarda. También puede ver todos nuestros
+            <a href="/trabajos/">trabajos realizados</a>.
+          </p>
+          <a class="enlace" href="/como-pedir/">
+            Cómo pedir <Icono nombre="flecha" tamano={15} />
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <Formulario productoPorDefecto={producto.opcionFormulario} />
+</Base>
+
+<style>
+  .cab-prod {
+    padding-block: clamp(2rem, 5vw, 3.5rem) clamp(3rem, 7vw, 5.5rem);
+    border-bottom: 1px solid var(--borde);
+    overflow: hidden;
+  }
+  .cab-int {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    align-items: center;
+  }
+  .cab-txt h1 {
+    margin-top: 1.4rem;
+  }
+  .cab-filete {
+    width: min(100%, 12rem);
+    margin-block: 1.6rem 1.4rem;
+  }
+  .cab-prod .acciones {
+    margin-top: 1.8rem;
+  }
+  .cab-foto {
+    margin: 0;
+  }
+  .cab-foto :global(img) {
+    width: 100%;
+    height: auto;
+    border: 1px solid color-mix(in srgb, var(--oro) 28%, transparent);
+    box-shadow: 0 36px 70px -32px rgba(0, 0, 0, 0.9);
+  }
+  @media (min-width: 62rem) {
+    .cab-int {
+      grid-template-columns: 1.15fr 1fr;
+      gap: 4rem;
+    }
+  }
+
+  .texto-int {
+    display: grid;
+    gap: 3rem;
+  }
+  .aparte:empty {
+    display: none;
+  }
+  @media (min-width: 62rem) {
+    .texto-int {
+      grid-template-columns: 1.5fr 1fr;
+      gap: 4.5rem;
+    }
+    .aparte {
+      position: sticky;
+      top: 7rem;
+      align-self: start;
+    }
+  }
+
+  .gal-filete {
+    margin-block: 1.6rem 3rem;
+    max-width: 10rem;
+  }
+  .gal-acc {
+    margin-top: 2.5rem;
+  }
+
+  .rejilla-otros {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .tarjeta-txt-sola {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 1.6rem;
+    border: 1px solid var(--borde);
+    background: var(--negro-2);
+  }
+  .tarjeta-txt-sola h3 {
+    font-size: 1.4rem;
+  }
+  .tarjeta-txt-sola p {
+    font-size: 0.9375rem;
+    color: var(--txt-3);
+  }
+  .tarjeta-txt-sola a {
+    color: var(--oro-texto);
+  }
+  .tarjeta-txt-sola .enlace {
+    margin-top: auto;
+    padding-top: 1rem;
+  }
+  @media (min-width: 46rem) {
+    .rejilla-otros {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

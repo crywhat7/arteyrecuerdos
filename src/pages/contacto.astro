@@ -1,0 +1,226 @@
+---
+import Base from '../layouts/Base.astro';
+import Migas from '../components/Migas.astro';
+import Icono from '../components/Icono.astro';
+import Formulario from '../components/Formulario.astro';
+import { NEGOCIO, enlaceWhatsApp, MENSAJES_WHATSAPP } from '../data/sitio';
+
+const migas = [
+  { nombre: 'Inicio', href: '/' },
+  { nombre: 'Contacto', href: '/contacto/' },
+];
+---
+
+<Base
+  titulo="Contacto y Ubicación en Tegucigalpa | Arte y Recuerdo"
+  descripcion="Taller de placas para lápidas, cruces y floreros en Col. La Travesía, Tegucigalpa. Teléfono y WhatsApp 9751-3752, de lunes a viernes de 8 a 5."
+  og="/og/contacto.jpg"
+  migas={migas}
+>
+  <section class="cab marmol">
+    <div class="contenedor cab-int">
+      <Migas migas={migas} />
+      <h1 class="titulo entra" style="--d:100ms">Contacto y ubicación</h1>
+      <hr class="filete entra-filete cab-filete" style="--d:300ms" />
+      <p class="entrada entra" style="--d:380ms">
+        Escríbanos por WhatsApp a cualquier hora: le respondemos en horario de taller. También
+        puede llamarnos o pasar por la Col. La Travesía.
+      </p>
+    </div>
+  </section>
+
+  <section class="seccion datos-sec" aria-labelledby="datos-tit">
+    <div class="contenedor datos-int">
+      <div class="tarjetas">
+        <h2 class="solo-lectores" id="datos-tit">Datos de contacto</h2>
+
+        <a class="tc rev" href={enlaceWhatsApp(MENSAJES_WHATSAPP.general)} target="_blank" rel="noopener">
+          <Icono nombre="whatsapp" tamano={26} />
+          <span class="tc-tit">WhatsApp</span>
+          <span class="tc-val">{NEGOCIO.telefono}</span>
+          <span class="tc-nota">La forma más rápida. Puede mandarnos fotos.</span>
+        </a>
+
+        <a class="tc rev" style="--i:1" href={NEGOCIO.telefonoHref}>
+          <Icono nombre="telefono" tamano={24} />
+          <span class="tc-tit">Teléfono</span>
+          <span class="tc-val">{NEGOCIO.telefono}</span>
+          <span class="tc-nota">Llámenos en horario de taller.</span>
+        </a>
+
+        <div class="tc tc-plano rev" style="--i:2">
+          <Icono nombre="pin" tamano={24} />
+          <span class="tc-tit">Dirección</span>
+          <address class="tc-val">
+            {NEGOCIO.direccion.calle}<br />
+            {NEGOCIO.direccion.ciudad}, {NEGOCIO.direccion.departamento}<br />
+            {NEGOCIO.direccion.pais}
+          </address>
+          <a class="enlace tc-enlace" href={NEGOCIO.mapaUrl} target="_blank" rel="noopener">
+            Abrir en Google Maps <Icono nombre="flecha" tamano={15} />
+          </a>
+        </div>
+
+        <div class="tc tc-plano rev" style="--i:3">
+          <Icono nombre="reloj" tamano={24} />
+          <span class="tc-tit">Horario</span>
+          <ul class="horario">
+            {
+              NEGOCIO.horario.map((h) => (
+                <li>
+                  <span>{h.dias}</span>
+                  <span>{h.horas}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <a class="tc rev" style="--i:4" href={NEGOCIO.facebook} target="_blank" rel="noopener me">
+          <Icono nombre="facebook" tamano={24} />
+          <span class="tc-tit">Facebook</span>
+          <span class="tc-val">Arte y Recuerdo</span>
+          <span class="tc-nota">Vea nuestras publicaciones y trabajos recientes.</span>
+        </a>
+      </div>
+
+      <figure class="mapa rev">
+        <iframe
+          src={NEGOCIO.mapaEmbed}
+          title="Mapa de la Col. La Travesía, Tegucigalpa"
+          width="600"
+          height="450"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          style="border:0"></iframe>
+        <figcaption>
+          El mapa señala la Col. La Travesía.
+          <!-- TODO: cambiar por la ubicación exacta del taller cuando el cliente la confirme. -->
+          Escríbanos por WhatsApp y le pasamos la referencia exacta.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <Formulario />
+</Base>
+
+<style>
+  .cab {
+    padding-block: clamp(2rem, 5vw, 3.5rem) clamp(2.5rem, 6vw, 4.5rem);
+    border-bottom: 1px solid var(--borde);
+  }
+  .cab-int {
+    position: relative;
+    z-index: 1;
+    max-width: 44rem;
+  }
+  .cab h1 {
+    margin-top: 1.4rem;
+  }
+  .cab-filete {
+    width: min(100%, 12rem);
+    margin-block: 1.5rem 1.4rem;
+  }
+
+  .datos-int {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .tarjetas {
+    display: grid;
+    gap: 1rem;
+  }
+  .tc {
+    display: grid;
+    gap: 0.35rem;
+    padding: 1.4rem 1.5rem;
+    border: 1px solid var(--borde);
+    background: var(--negro-2);
+    text-decoration: none;
+    transition:
+      border-color 0.45s var(--quart),
+      transform 0.55s var(--expo);
+  }
+  a.tc:hover {
+    border-color: color-mix(in srgb, var(--oro) 45%, transparent);
+    transform: translateY(-3px);
+  }
+  .tc :global(svg) {
+    color: var(--oro);
+    margin-bottom: 0.5rem;
+  }
+  .tc-tit {
+    font-size: var(--t-xs);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--oro-texto);
+  }
+  .tc-val {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    line-height: 1.25;
+    font-style: normal;
+    color: var(--txt);
+  }
+  .tc-nota {
+    font-size: 0.875rem;
+    color: var(--txt-3);
+  }
+  .tc-enlace {
+    margin-top: 0.7rem;
+    justify-self: start;
+  }
+  .horario {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.4rem;
+    margin-top: 0.3rem;
+    font-size: 0.9375rem;
+    color: var(--txt-2);
+  }
+  .horario li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .horario span:last-child {
+    color: var(--txt-3);
+    text-align: right;
+  }
+
+  .mapa {
+    margin: 0;
+  }
+  .mapa iframe {
+    width: 100%;
+    height: clamp(18rem, 42vw, 26rem);
+    border: 1px solid var(--borde);
+    filter: grayscale(0.35) contrast(1.05) brightness(0.92);
+  }
+  figcaption {
+    margin-top: 0.8rem;
+    font-size: 0.875rem;
+    color: var(--txt-3);
+    max-width: 44ch;
+  }
+
+  @media (min-width: 42rem) {
+    .tarjetas {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 66rem) {
+    .datos-int {
+      grid-template-columns: 1.15fr 1fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+    .mapa {
+      position: sticky;
+      top: 7rem;
+    }
+  }
+</style>

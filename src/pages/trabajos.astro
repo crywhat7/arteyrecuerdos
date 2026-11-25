@@ -1,0 +1,103 @@
+---
+import Base from '../layouts/Base.astro';
+import Migas from '../components/Migas.astro';
+import Galeria from '../components/Galeria.astro';
+import Icono from '../components/Icono.astro';
+import Formulario from '../components/Formulario.astro';
+import { TRABAJOS } from '../data/trabajos';
+import { enlaceWhatsApp, MENSAJES_WHATSAPP } from '../data/sitio';
+
+const migas = [
+  { nombre: 'Inicio', href: '/' },
+  { nombre: 'Trabajos', href: '/trabajos/' },
+];
+---
+
+<Base
+  titulo="Galería de Placas para Lápidas | Arte y Recuerdo"
+  descripcion="Fotografías reales de placas para lápidas hechas en nuestro taller de Tegucigalpa: mármol, grabado dorado y plateado, con y sin fotografía. 9751-3752."
+  og="/og/trabajos.jpg"
+  migas={migas}
+>
+  <section class="cab marmol">
+    <div class="contenedor cab-int">
+      <Migas migas={migas} />
+      <h1 class="titulo entra" style="--d:100ms">Trabajos realizados</h1>
+      <hr class="filete entra-filete cab-filete" style="--d:300ms" />
+      <p class="entrada entra" style="--d:380ms">
+        Estas son fotografías reales de placas que ya están colocadas. Por respeto a las familias
+        no publicamos los nombres de las personas fallecidas.
+      </p>
+    </div>
+  </section>
+
+  <section class="seccion" aria-label="Galería de trabajos">
+    <div class="contenedor">
+      <Galeria trabajos={TRABAJOS} filtros prioritarias={1} id="galeria" />
+    </div>
+  </section>
+
+  <section class="seccion-sm nota-sec">
+    <div class="contenedor nota-int">
+      <div>
+        <h2 class="subtitulo rev">¿Vio algo que le gustó?</h2>
+        <p class="rev" style="--i:1">
+          Ningún diseño se repite, pero sí podemos partir de uno que le guste y adaptarlo al nombre,
+          las fechas y el versículo de su ser querido. Mándenos la captura por WhatsApp y le
+          decimos cómo quedaría.
+        </p>
+      </div>
+      <div class="acciones rev" style="--i:2">
+        <a class="btn" href={enlaceWhatsApp(MENSAJES_WHATSAPP.general)} target="_blank" rel="noopener">
+          <Icono nombre="whatsapp" tamano={17} /> Escribir al taller
+        </a>
+        <a class="btn btn-linea" href="/como-pedir/">Cómo pedir</a>
+      </div>
+    </div>
+  </section>
+
+  <Formulario />
+</Base>
+
+<style>
+  .cab {
+    padding-block: clamp(2rem, 5vw, 3.5rem) clamp(2.5rem, 6vw, 4.5rem);
+    border-bottom: 1px solid var(--borde);
+  }
+  .cab-int {
+    position: relative;
+    z-index: 1;
+    max-width: 44rem;
+  }
+  .cab h1 {
+    margin-top: 1.4rem;
+  }
+  .cab-filete {
+    width: min(100%, 12rem);
+    margin-block: 1.5rem 1.4rem;
+  }
+
+  .nota-sec {
+    border-top: 1px solid var(--borde);
+    background: var(--negro-2);
+  }
+  .nota-int {
+    display: grid;
+    gap: 2rem;
+    align-items: center;
+  }
+  .nota-int p {
+    color: var(--txt-2);
+    max-width: 48ch;
+    margin-top: 0.8rem;
+  }
+  @media (min-width: 60rem) {
+    .nota-int {
+      grid-template-columns: 1.4fr 1fr;
+      gap: 3rem;
+    }
+    .nota-int .acciones {
+      justify-content: flex-end;
+    }
+  }
+</style>

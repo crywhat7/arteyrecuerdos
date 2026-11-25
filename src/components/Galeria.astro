@@ -1,0 +1,384 @@
+---
+import { Picture } from 'astro:assets';
+import Icono from './Icono.astro';
+import { TEMAS, type Trabajo } from '../data/trabajos';
+
+interface Props {
+  trabajos: Trabajo[];
+  /** Muestra la fila de filtros por iconografía. */
+  filtros?: boolean;
+  /** Las primeras imágenes se cargan de inmediato (galería completa). */
+  prioritarias?: number;
+  id?: string;
+}
+const { trabajos, filtros = false, prioritarias = 0, id = 'galeria' } = Astro.props;
+---
+
+<div class="galeria-bloque" id={id}>
+  {
+    filtros && (
+      <div class="filtros" role="group" aria-label="Filtrar los trabajos por iconografía">
+        <button class="chip" type="button" data-tema="todos" aria-pressed="true">
+          Todos
+        </button>
+        {TEMAS.map((t) => (
+          <button class="chip" type="button" data-tema={t.id} aria-pressed="false">
+            {t.nombre}
+          </button>
+        ))}
+      </div>
+    )
+  }
+
+  <p class="vacio" data-vacio hidden>
+    No hay trabajos de esa iconografía en la galería todavía. Pregúntenos por WhatsApp: lo
+    diseñamos igual.
+  </p>
+
+  <ul class="rejilla" data-rejilla>
+    {
+      trabajos.map((t, i) => (
+        <li class="celda rev" style={`--i:${i % 3}`} data-temas={t.temas.join(' ')}>
+          <button class="abrir" type="button" data-abrir-foto={i}>
+            <Picture
+              src={t.imagen}
+              alt={t.alt}
+              widths={[340, 520, 760]}
+              sizes="(min-width: 64rem) 30rem, (min-width: 40rem) 45vw, 92vw"
+              formats={['avif']}
+            fallbackFormat="webp"
+              loading={i < prioritarias ? 'eager' : 'lazy'}
+              fetchpriority={i === 0 && prioritarias > 0 ? 'high' : undefined}
+              decoding={i === 0 && prioritarias > 0 ? 'sync' : 'async'}
+            />
+            <span class="lupa" aria-hidden="true">
+              <Icono nombre="flecha" tamano={16} />
+            </span>
+            <span class="solo-lectores">Ampliar: {t.alt}</span>
+          </button>
+          <p class="pie-foto">
+            {t.forma === 'libro abierto' ? 'Libro abierto' : 'Rectangular'} · {t.material} · grabado{' '}
+            {t.acabado}
+          </p>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<dialog class="visor" data-visor aria-label="Trabajo ampliado">
+  <button class="visor-cerrar" type="button" data-visor-cerrar>
+    <span class="solo-lectores">Cerrar</span>
+    <Icono nombre="cerrar" tamano={22} />
+  </button>
+  <button class="visor-nav visor-ant" type="button" data-visor-mover="-1">
+    <span class="solo-lectores">Anterior</span>
+    <Icono nombre="flecha" tamano={20} />
+  </button>
+  <figure class="visor-fig">
+    <img data-visor-img alt="" />
+    <figcaption data-visor-pie></figcaption>
+  </figure>
+  <button class="visor-nav visor-sig" type="button" data-visor-mover="1">
+    <span class="solo-lectores">Siguiente</span>
+    <Icono nombre="flecha" tamano={20} />
+  </button>
+</dialog>
+
+<style>
+  .filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  .chip {
+    padding: 0.55rem 1rem;
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    background: transparent;
+    color: var(--txt-2);
+    border: 1px solid var(--borde);
+    border-radius: 999px;
+    cursor: pointer;
+    transition:
+      color 0.35s var(--quart),
+      border-color 0.35s var(--quart),
+      background-color 0.35s var(--quart);
+  }
+  .chip:hover {
+    color: var(--oro-claro);
+    border-color: color-mix(in srgb, var(--oro) 40%, transparent);
+  }
+  .chip[aria-pressed='true'] {
+    background: var(--oro);
+    border-color: var(--oro);
+    color: #150f05;
+    font-weight: 600;
+  }
+
+  .vacio {
+    color: var(--txt-3);
+    max-width: 44ch;
+    margin-bottom: 2rem;
+  }
+
+  .rejilla {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+  }
+  .celda[hidden] {
+    display: none;
+  }
+  .abrir {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 1px solid var(--borde);
+    background: var(--negro-2);
+    cursor: zoom-in;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.5s var(--quart);
+  }
+  .abrir:hover {
+    border-color: color-mix(in srgb, var(--oro) 45%, transparent);
+  }
+  .abrir :global(img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition:
+      transform 1.1s var(--expo),
+      opacity 0.5s var(--quart);
+  }
+  .abrir:hover :global(img) {
+    transform: scale(1.035);
+    opacity: 0.9;
+  }
+  .lupa {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--negro) 78%, transparent);
+    color: var(--oro-claro);
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 0.4s var(--quart),
+      transform 0.5s var(--expo);
+  }
+  .abrir:hover .lupa,
+  .abrir:focus-visible .lupa {
+    opacity: 1;
+    transform: none;
+  }
+  .claro .abrir {
+    border-color: color-mix(in srgb, var(--txt-claro) 14%, transparent);
+    background: #fff;
+  }
+  .claro .abrir:hover {
+    border-color: color-mix(in srgb, var(--oro-oscuro) 55%, transparent);
+  }
+  .claro .chip {
+    border-color: color-mix(in srgb, var(--txt-claro) 16%, transparent);
+    color: var(--txt-claro-2);
+  }
+  .claro .chip:hover {
+    color: var(--oro-oscuro);
+  }
+  .claro .chip[aria-pressed='true'] {
+    color: #150f05;
+  }
+  .claro .pie-foto,
+  .claro .vacio {
+    color: var(--txt-claro-2);
+  }
+
+  .pie-foto {
+    margin-top: 0.6rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--txt-3);
+  }
+
+  /* --- Visor --- */
+  .visor {
+    width: min(96vw, 76rem);
+    max-width: none;
+    max-height: 92vh;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--txt);
+    overflow: visible;
+  }
+  .visor::backdrop {
+    background: rgba(5, 5, 5, 0.94);
+    backdrop-filter: blur(6px);
+  }
+  .visor[open] {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .visor-fig {
+    margin: 0;
+    display: grid;
+    gap: 0.9rem;
+    justify-items: center;
+  }
+  .visor-fig img {
+    max-height: 76vh;
+    width: auto;
+    max-width: 100%;
+    border: 1px solid color-mix(in srgb, var(--oro) 25%, transparent);
+  }
+  figcaption {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--txt-2);
+    text-align: center;
+    max-width: 60ch;
+  }
+  .visor-cerrar,
+  .visor-nav {
+    width: 2.75rem;
+    height: 2.75rem;
+    display: grid;
+    place-items: center;
+    background: color-mix(in srgb, var(--negro) 70%, transparent);
+    border: 1px solid var(--borde);
+    border-radius: 999px;
+    color: var(--oro-claro);
+    cursor: pointer;
+    transition: border-color 0.35s var(--quart);
+  }
+  .visor-cerrar:hover,
+  .visor-nav:hover {
+    border-color: var(--oro);
+  }
+  .visor-cerrar {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 2;
+  }
+  .visor-ant :global(svg) {
+    transform: rotate(180deg);
+  }
+
+  @media (min-width: 40rem) {
+    .rejilla {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+  }
+  @media (min-width: 64rem) {
+    .rejilla {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+    }
+  }
+  @media (max-width: 40rem) {
+    .visor[open] {
+      grid-template-columns: 1fr;
+    }
+    .visor-nav {
+      position: fixed;
+      bottom: 1.5rem;
+    }
+    .visor-ant {
+      left: 1.5rem;
+    }
+    .visor-sig {
+      right: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  const bloques = document.querySelectorAll<HTMLElement>('.galeria-bloque');
+
+  bloques.forEach((bloque) => {
+    const celdas = Array.from(bloque.querySelectorAll<HTMLElement>('.celda'));
+    const vacio = bloque.querySelector<HTMLElement>('[data-vacio]');
+
+    // --- Filtros ---
+    const chips = Array.from(bloque.querySelectorAll<HTMLButtonElement>('.chip'));
+    const aplicar = (tema: string) => {
+      let visibles = 0;
+      celdas.forEach((c) => {
+        const ok = tema === 'todos' || (c.dataset.temas ?? '').split(' ').includes(tema);
+        c.hidden = !ok;
+        if (ok) visibles++;
+      });
+      chips.forEach((ch) => ch.setAttribute('aria-pressed', String(ch.dataset.tema === tema)));
+      if (vacio) vacio.hidden = visibles > 0;
+    };
+    chips.forEach((ch) =>
+      ch.addEventListener('click', () => {
+        const tema = ch.dataset.tema!;
+        aplicar(tema);
+        const url = new URL(location.href);
+        if (tema === 'todos') url.searchParams.delete('tema');
+        else url.searchParams.set('tema', tema);
+        history.replaceState(null, '', url);
+      })
+    );
+    if (chips.length) {
+      const inicial = new URL(location.href).searchParams.get('tema');
+      if (inicial && chips.some((c) => c.dataset.tema === inicial)) aplicar(inicial);
+    }
+
+    // --- Visor ---
+    const visor = bloque.parentElement?.querySelector<HTMLDialogElement>('[data-visor]');
+    const img = visor?.querySelector<HTMLImageElement>('[data-visor-img]');
+    const pie = visor?.querySelector<HTMLElement>('[data-visor-pie]');
+    if (!visor || !img || !pie) return;
+
+    let actual = 0;
+    const visibles = () => celdas.filter((c) => !c.hidden);
+
+    const pintar = (i: number) => {
+      const lista = visibles();
+      if (!lista.length) return;
+      actual = (i + lista.length) % lista.length;
+      const origen = lista[actual].querySelector('img')!;
+      img.src = origen.currentSrc || origen.src;
+      img.srcset = origen.srcset;
+      img.sizes = '96vw';
+      img.alt = origen.alt;
+      pie.textContent = origen.alt;
+    };
+
+    bloque.querySelectorAll<HTMLButtonElement>('[data-abrir-foto]').forEach((b) => {
+      b.addEventListener('click', () => {
+        const celda = b.closest('.celda')!;
+        pintar(visibles().indexOf(celda as HTMLElement));
+        visor.showModal();
+      });
+    });
+    visor.querySelector('[data-visor-cerrar]')?.addEventListener('click', () => visor.close());
+    visor.querySelectorAll<HTMLButtonElement>('[data-visor-mover]').forEach((b) =>
+      b.addEventListener('click', () => pintar(actual + Number(b.dataset.visorMover)))
+    );
+    visor.addEventListener('click', (e) => {
+      if (e.target === visor) visor.close();
+    });
+    visor.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') pintar(actual + 1);
+      if (e.key === 'ArrowLeft') pintar(actual - 1);
+    });
+  });
+</script>

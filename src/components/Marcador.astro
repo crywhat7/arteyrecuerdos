@@ -1,0 +1,53 @@
+---
+import Icono from './Icono.astro';
+import type { NombreIcono } from '../lib/iconos';
+
+/**
+ * Marcador para los productos de los que todavía no hay foto real del taller.
+ * TODO: sustituir por la fotografía real (ver src/data/productos.ts).
+ */
+interface Props {
+  icono: NombreIcono;
+  texto: string;
+  proporcion?: string;
+  class?: string;
+}
+const { icono, texto, proporcion = '4 / 3', class: clase = '' } = Astro.props;
+---
+
+<div class={`marcador marmol ${clase}`} style={`--prop:${proporcion}`} role="img" aria-label={`${texto}. Fotografía del taller próximamente.`}>
+  <div class="marcador-int">
+    <Icono nombre={icono} tamano={64} trazo={0.9} />
+    <p class="etiqueta">{texto}</p>
+    <p class="nota">Fotografía del taller próximamente</p>
+  </div>
+</div>
+
+<style>
+  .marcador {
+    aspect-ratio: var(--prop);
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--borde);
+    overflow: hidden;
+  }
+  .marcador-int {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    gap: 0.8rem;
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--oro);
+  }
+  .marcador-int :global(svg) {
+    opacity: 0.85;
+  }
+  .nota {
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--txt-3);
+    text-transform: none;
+  }
+</style>

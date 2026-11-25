@@ -1,0 +1,67 @@
+---
+/**
+ * Emblema "AR" con la cruz integrada, recreado en SVG a partir del logotipo.
+ * Se dibuja con texto SVG para que escale sin pixelarse en cualquier tamaño.
+ */
+interface Props {
+  tamano?: number;
+  class?: string;
+  titulo?: string;
+}
+const { tamano = 44, class: clase = '', titulo } = Astro.props;
+const id = 'mg' + Math.random().toString(36).slice(2, 8);
+---
+
+<svg
+  class={`monograma ${clase}`}
+  width={tamano}
+  height={tamano}
+  viewBox="0 0 100 100"
+  role={titulo ? 'img' : 'presentation'}
+  aria-label={titulo}
+  aria-hidden={titulo ? undefined : 'true'}
+  focusable="false"
+>
+  <defs>
+    <radialGradient id={`${id}-p`} cx="26%" cy="18%" r="92%">
+      <stop offset="0%" stop-color="#232020"></stop>
+      <stop offset="55%" stop-color="#0f0e0d"></stop>
+      <stop offset="100%" stop-color="#070707"></stop>
+    </radialGradient>
+    <linearGradient id={`${id}-o`} x1="8%" y1="0%" x2="92%" y2="100%">
+      <stop offset="0%" stop-color="#a9823a"></stop>
+      <stop offset="38%" stop-color="#e6c77a"></stop>
+      <stop offset="62%" stop-color="#c9a24a"></stop>
+      <stop offset="100%" stop-color="#8c6a2b"></stop>
+    </linearGradient>
+  </defs>
+
+  <circle cx="50" cy="50" r="49" fill={`url(#${id}-p)`}></circle>
+  <g stroke="#c9a24a" stroke-width="0.6" opacity="0.35" fill="none">
+    <path d="M2 34 L34 14 L58 24 L86 10"></path>
+    <path d="M10 82 L38 66 L66 78 L98 62"></path>
+  </g>
+  <circle cx="50" cy="50" r="47.5" fill="none" stroke={`url(#${id}-o)`} stroke-width="1.1"></circle>
+
+  <text
+    x="50"
+    y="50"
+    text-anchor="middle"
+    dominant-baseline="central"
+    font-family="'Cormorant Garamond', Georgia, serif"
+    font-size="58"
+    font-weight="500"
+    letter-spacing="-3"
+    fill={`url(#${id}-o)`}>AR</text
+  >
+  <g fill={`url(#${id}-o)`}>
+    <rect x="37.2" y="33" width="2" height="25" rx="0.6"></rect>
+    <rect x="31.5" y="40.4" width="13.4" height="1.9" rx="0.6"></rect>
+  </g>
+</svg>
+
+<style>
+  .monograma {
+    flex: none;
+  }
+</style>

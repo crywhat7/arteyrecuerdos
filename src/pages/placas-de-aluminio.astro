@@ -1,0 +1,61 @@
+---
+import Producto from '../layouts/Producto.astro';
+import Aparte from '../components/Aparte.astro';
+import { productoPorId } from '../data/productos';
+
+const producto = productoPorId('aluminio');
+---
+
+<Producto
+  producto={producto}
+  titulo="Placas de Aluminio para Cementerio | Arte y Recuerdo"
+  descripcion="Placas de aluminio para lápidas y nichos en Tegucigalpa: livianas, resistentes a la intemperie y más económicas que el mármol. WhatsApp 9751-3752."
+  entrada="Una opción más liviana y más económica que el mármol, pensada para nichos y lápidas sencillas, y resistente a la intemperie del cementerio."
+  og="/og/placas-de-aluminio.jpg"
+>
+  <h2>Cuándo conviene el aluminio</h2>
+  <p>
+    No todas las familias necesitan una placa de mármol, y no pasa nada por decirlo. El aluminio
+    resuelve muy bien tres situaciones: cuando el espacio es un nicho y el peso importa, cuando se
+    busca algo digno dentro de un presupuesto ajustado, y cuando se quiere marcar la tumba ahora y
+    dejar la placa de mármol para más adelante.
+  </p>
+
+  <h2>Qué la diferencia del mármol</h2>
+  <ul>
+    <li><strong>Peso.</strong> Pesa una fracción de lo que pesa el mármol, así que se fija con facilidad en nichos y en lápidas que no admiten mucha carga.</li>
+    <li><strong>Precio.</strong> Es la opción más accesible del taller.</li>
+    <li><strong>Resistencia.</strong> El aluminio no se oxida como el hierro. Con el acabado adecuado aguanta sol y lluvia sin problema.</li>
+    <li><strong>Terminado.</strong> El mármol da el pulido y la profundidad del grabado en piedra; el aluminio da una superficie limpia y pareja. Son dos caracteres distintos, no uno mejor que otro.</li>
+  </ul>
+
+  <h2>Qué lleva grabado</h2>
+  <p>
+    Lo esencial, con la misma claridad de lectura que en una placa de piedra: nombre completo,
+    fecha de nacimiento y fecha de fallecimiento, la frase o el versículo que la familia escoja y,
+    si lo desea, la dedicatoria de los hijos o nietos. También podemos incluir una cruz, una
+    paloma o un borde sencillo.
+  </p>
+
+  <h2>Medidas</h2>
+  <p>
+    Se corta a la medida del espacio. Si va en un nicho, lo más práctico es que nos mande por
+    WhatsApp una fotografía del frente con una cinta métrica apoyada: con eso calculamos el tamaño
+    exacto y le decimos cómo queda la distribución del texto.
+  </p>
+
+  <h2>Y si después quiere mármol</h2>
+  <p>
+    Muchas familias empiezan con una placa de aluminio y, con el tiempo, nos piden la de
+    <a href="/placas-de-marmol/">mármol</a> —o la misma con
+    <a href="/placas-con-fotografia/">fotografía</a>— para un aniversario. Guardamos el diseño, así
+    que no hay que empezar de cero: se traslada el mismo texto y la misma iconografía al material
+    nuevo.
+  </p>
+  <p>
+    Atendemos Tegucigalpa, Comayagüela y alrededores. Escríbanos y le decimos precio y tiempo; en
+    <a href="/como-pedir/">cómo pedir su placa</a> está todo el proceso explicado.
+  </p>
+
+  <Aparte slot="aparte" producto="aluminio" />
+</Producto>

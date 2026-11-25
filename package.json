@@ -1,0 +1,27 @@
+{
+  "name": "arte-y-recuerdo",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "imagenes": "node scripts/preparar-imagenes.mjs",
+    "marca": "node scripts/generar-marca.mjs",
+    "assets": "npm run imagenes && npm run marca",
+    "lighthouse": "node scripts/lighthouse.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.6",
+    "astro": "^7.4.13",
+    "sharp": "^0.35.5",
+    "typescript": "^7.0.2"
+  },
+  "devDependencies": {
+    "lighthouse": "^13.6.0"
+  }
+}

@@ -1,0 +1,64 @@
+---
+import Producto from '../layouts/Producto.astro';
+import Aparte from '../components/Aparte.astro';
+import { productoPorId } from '../data/productos';
+
+const producto = productoPorId('floreros');
+---
+
+<Producto
+  producto={producto}
+  titulo="Floreros y Flores para Lápida, Tegucigalpa | Arte y Recuerdo"
+  descripcion="Floreros de metal para fijar a la lápida y arreglos de flores para tumbas en Tegucigalpa, a juego con su placa. Cotice sin compromiso al 9751-3752."
+  entrada="Floreros de metal para fijar a la lápida y arreglos florales para acompañar la visita, a juego con la placa de su ser querido."
+  og="/og/floreros-y-flores.jpg"
+>
+  <h2>Un lugar fijo para las flores</h2>
+  <p>
+    Las flores sueltas se caen con el viento y se las lleva el agua. Un florero fijado a la lápida
+    resuelve eso: las flores quedan de pie, en su sitio, y la tumba se ve cuidada aunque la familia
+    no pueda ir todas las semanas.
+  </p>
+
+  <h2>Floreros de metal</h2>
+  <p>
+    Los fabricamos en metal, con la boca ancha para que entre un ramo y la base pensada para
+    anclarse. Se pueden colocar de dos maneras: atornillados a la lápida de concreto o mármol, o
+    empotrados a un costado. Se terminan con el mismo acabado dorado o bronce de las
+    <a href="/cruces-de-metal/">cruces</a>, para que todo el conjunto se vea de una sola pieza.
+  </p>
+  <ul>
+    <li>Un florero a un lado, cuando la lápida es angosta.</li>
+    <li>Dos floreros simétricos, uno a cada lado de la placa. Es la disposición más común.</li>
+    <li>Florero al pie de la cruz, cuando la tumba es de tierra.</li>
+  </ul>
+
+  <h2>Arreglos florales</h2>
+  <p>
+    También preparamos arreglos para llevar a la tumba: para el día del entierro, para el novenario
+    y para las fechas que la familia no deja pasar —el aniversario, el cumpleaños, el Día de los
+    Difuntos—. Si nos dice qué flores prefería su ser querido, armamos el arreglo alrededor de
+    ellas.
+  </p>
+
+  <h2>A juego con la placa</h2>
+  <p>
+    Cuando el florero, la cruz y la <a href="/placas-de-marmol/">placa de mármol</a> salen del
+    mismo taller, los acabados coinciden: el mismo tono de dorado, la misma terminación. Es un
+    detalle pequeño que se nota mucho en el cementerio, donde casi todo está mezclado.
+  </p>
+
+  <h2>Cómo pedirlos</h2>
+  <p>
+    Mándenos por WhatsApp una fotografía de la lápida y, si la sabe, la medida del espacio
+    disponible. Con eso le decimos cuántos floreros caben, de qué tamaño y cuánto cuesta. Si
+    también quiere flores, dígannos para qué fecha las necesita. Todo el proceso está explicado en
+    <a href="/como-pedir/">cómo pedir su placa</a>.
+  </p>
+  <p>
+    Atendemos Tegucigalpa, Comayagüela y alrededores. Consúltenos siempre antes de la fecha que
+    tiene en mente, para reservar el trabajo con tiempo.
+  </p>
+
+  <Aparte slot="aparte" producto="floreros" />
+</Producto>

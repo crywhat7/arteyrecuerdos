@@ -1,0 +1,641 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icono from '../components/Icono.astro';
+import TarjetaProducto from '../components/TarjetaProducto.astro';
+import Proceso from '../components/Proceso.astro';
+import Galeria from '../components/Galeria.astro';
+import Faq from '../components/Faq.astro';
+import Formulario from '../components/Formulario.astro';
+import { PRODUCTOS } from '../data/productos';
+import { DESTACADOS, TEMAS, porId } from '../data/trabajos';
+import { FAQ_INICIO } from '../data/faq';
+import { NEGOCIO, enlaceWhatsApp, MENSAJES_WHATSAPP } from '../data/sitio';
+import { faqPage } from '../lib/schema';
+
+const hero = porId('placa-02');
+const conFoto = porId('placa-07');
+const plateada = porId('placa-08');
+
+const CONFIANZA = [
+  'Diseño personalizado, nunca de catálogo',
+  'Grabado dorado o plateado',
+  'Le mostramos el diseño antes de fabricar',
+];
+---
+
+<Base
+  titulo="Placas para Lápidas en Tegucigalpa | Arte y Recuerdo"
+  descripcion="Fabricamos placas de mármol para lápidas, placas con fotografía, cruces de metal, floreros y flores en Tegucigalpa. Cotice sin compromiso al 9751-3752."
+  og="/og/inicio.jpg"
+  migas={[{ nombre: 'Inicio', href: '/' }]}
+  schema={[faqPage(FAQ_INICIO)]}
+>
+  <!-- ======================= HÉROE ======================= -->
+  <section class="heroe marmol" aria-labelledby="h1">
+    <div class="contenedor-ancho heroe-int">
+      <div class="heroe-txt">
+        <p class="etiqueta entra" style="--d:120ms">Taller en Col. La Travesía, Tegucigalpa</p>
+        <h1 class="heroe-h1" id="h1">
+          <span class="entra" style="--d:220ms">Placas para lápidas</span>
+          <span class="entra oro-brillo" style="--d:340ms">en Tegucigalpa</span>
+        </h1>
+        <hr class="filete entra-filete heroe-filete" style="--d:520ms" />
+        <p class="entrada entra" style="--d:600ms">
+          Diseñamos y fabricamos placas de mármol, cruces de metal y arreglos florales para honrar
+          la memoria de su ser querido.
+        </p>
+        <div class="acciones entra" style="--d:720ms">
+          <a class="btn" href={enlaceWhatsApp(MENSAJES_WHATSAPP.general)} target="_blank" rel="noopener">
+            <Icono nombre="whatsapp" tamano={17} /> Solicitar cotización
+          </a>
+          <a class="btn btn-linea" href="/trabajos/">Ver trabajos</a>
+        </div>
+      </div>
+
+      <figure class="heroe-foto entra-suave" style="--d:260ms">
+        <Picture
+          src={hero.imagen}
+          alt={hero.alt}
+          widths={[520, 760, 1040]}
+          sizes="(min-width: 64rem) 36rem, 92vw"
+          formats={['avif']}
+            fallbackFormat="webp"
+          loading="eager"
+          fetchpriority="high"
+          decoding="sync"
+        />
+        <figcaption>Mármol negro · grabado dorado · forma de libro abierto</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ======================= CONFIANZA ======================= -->
+  <section class="confianza" aria-label="Lo que incluye cada trabajo">
+    <div class="contenedor confianza-int">
+      {
+        CONFIANZA.map((c, i) => (
+          <p class="rev" style={`--i:${i}`}>
+            <span class="punto" aria-hidden="true" />
+            {c}
+          </p>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ======================= PRODUCTOS ======================= -->
+  <section class="seccion" aria-labelledby="prod-tit">
+    <div class="contenedor">
+      <div class="cab">
+        <div>
+          <p class="etiqueta rev">Lo que hacemos</p>
+          <h2 class="titulo rev" id="prod-tit" style="--i:1">Todo para la lápida,<br />de una sola mano</h2>
+        </div>
+        <p class="cab-nota rev" style="--i:2">
+          Cada pieza se hace por encargo, a la medida de la lápida y con la iconografía que su
+          familia elija.
+        </p>
+      </div>
+      <hr class="filete rev-filete cab-filete" />
+
+      <div class="rejilla-prod">
+        {PRODUCTOS.map((p, i) => <TarjetaProducto producto={p} indice={i % 3} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= BLOQUES ALTERNADOS ======================= -->
+  <section class="seccion bloques" aria-label="Cómo personalizamos cada placa">
+    <div class="contenedor">
+      <article class="bloque">
+        <figure class="bloque-img rev">
+          <Picture
+            src={conFoto.imagen}
+            alt={conFoto.alt}
+            widths={[480, 720, 960]}
+            sizes="(min-width: 64rem) 32rem, 92vw"
+            formats={['avif']}
+            fallbackFormat="webp"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+        <div class="bloque-txt">
+          <p class="etiqueta rev">Completamente personalizadas</p>
+          <h2 class="subtitulo rev" style="--i:1">No usamos plantillas de catálogo</h2>
+          <hr class="filete rev-filete bloque-filete" style="--i:2" />
+          <p class="rev" style="--i:3">
+            Cada placa se diseña desde cero para una sola persona: el nombre, las fechas, la frase
+            que la familia escoge y los detalles que la hacen suya. Nada se repite de un trabajo a
+            otro.
+          </p>
+          <a class="enlace rev" style="--i:4" href="/placas-de-marmol/">
+            Ver placas de mármol <Icono nombre="flecha" tamano={15} />
+          </a>
+        </div>
+      </article>
+
+      <article class="bloque bloque-inv">
+        <figure class="bloque-img rev">
+          <Picture
+            src={plateada.imagen}
+            alt={plateada.alt}
+            widths={[480, 720, 960]}
+            sizes="(min-width: 64rem) 32rem, 92vw"
+            formats={['avif']}
+            fallbackFormat="webp"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+        <div class="bloque-txt">
+          <p class="etiqueta rev">Con fotografía, si usted quiere</p>
+          <h2 class="subtitulo rev" style="--i:1">El rostro de su ser querido, para siempre</h2>
+          <hr class="filete rev-filete bloque-filete" style="--i:2" />
+          <p class="rev" style="--i:3">
+            Colocamos un medallón con la fotografía, ovalado o rectangular, incrustado en el
+            mármol. Usted nos manda la foto por WhatsApp y nosotros la preparamos para que resista
+            el sol y la lluvia.
+          </p>
+          <a class="enlace rev" style="--i:4" href="/placas-con-fotografia/">
+            Ver placas con fotografía <Icono nombre="flecha" tamano={15} />
+          </a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ EL LIBRO ABIERTO: usted elige el versículo ============ -->
+  <section class="libro-sec marmol" aria-labelledby="libro-tit">
+    <div class="contenedor">
+      <div class="libro-cab">
+        <p class="etiqueta rev">Usted elige el versículo</p>
+        <h2 class="titulo rev" id="libro-tit" style="--i:1">
+          La placa más pedida tiene<br /><span class="oro-brillo">forma de libro abierto</span>
+        </h2>
+      </div>
+
+      <div class="libro rev" style="--i:2">
+        <div class="pagina">
+          <p class="verso">
+            «Yo soy la resurrección y la vida; el que cree en mí, aunque esté muerto, vivirá.»
+          </p>
+          <p class="cita">San Juan 11:25</p>
+        </div>
+        <div class="lomo" aria-hidden="true"></div>
+        <div class="pagina pagina-der">
+          <p class="verso">
+            «Jehová es mi pastor, nada me faltará. En lugares de delicados pastos me hará
+            descansar.»
+          </p>
+          <p class="cita">Salmo 23:1-2</p>
+        </div>
+      </div>
+
+      <p class="libro-nota rev" style="--i:3">
+        En una página va el versículo y en la otra el nombre y las fechas. También grabamos
+        Filipenses 1:21, Gálatas 2:20 o la dedicatoria que su familia prefiera.
+      </p>
+    </div>
+  </section>
+
+  <!-- ======================= TEMAS ======================= -->
+  <section class="seccion temas-sec" aria-labelledby="temas-tit">
+    <div class="contenedor">
+      <div class="cab">
+        <div>
+          <p class="etiqueta rev">Iconografía</p>
+          <h2 class="titulo rev" id="temas-tit" style="--i:1">¿Qué quiere que lleve grabado?</h2>
+        </div>
+        <p class="cab-nota rev" style="--i:2">
+          Toque un motivo y vea los trabajos que lo llevan. Si no lo encuentra aquí, también lo
+          hacemos.
+        </p>
+      </div>
+      <hr class="filete rev-filete cab-filete" />
+
+      <ul class="temas">
+        {
+          TEMAS.map((t, i) => (
+            <li class="rev" style={`--i:${i % 3}`}>
+              <a href={`/trabajos/?tema=${t.id}#galeria`}>
+                <Icono
+                  nombre={
+                    t.id === 'fe'
+                      ? 'biblia'
+                      : t.id === 'palomas'
+                        ? 'paloma'
+                        : t.id === 'angeles'
+                          ? 'angel'
+                          : t.id === 'manos'
+                            ? 'manos'
+                            : t.id === 'rosas'
+                              ? 'rosa'
+                              : 'retrato'
+                  }
+                  tamano={40}
+                  trazo={1}
+                />
+                <span>{t.nombre}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <Proceso />
+
+  <!-- ======================= GALERÍA DESTACADA ======================= -->
+  <section class="seccion claro" aria-labelledby="gal-tit">
+    <div class="contenedor">
+      <div class="cab">
+        <div>
+          <p class="etiqueta rev">Trabajos realizados</p>
+          <h2 class="titulo rev" id="gal-tit" style="--i:1">Placas que ya están colocadas</h2>
+        </div>
+        <p class="cab-nota rev" style="--i:2">
+          Fotografías reales de nuestro taller. Por respeto a las familias no publicamos los
+          nombres.
+        </p>
+      </div>
+      <hr class="filete rev-filete cab-filete" />
+      <Galeria trabajos={DESTACADOS} id="destacados" />
+      <div class="acciones gal-acc rev">
+        <a class="btn btn-linea" href="/trabajos/">Ver todos los trabajos</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= DIFERENCIADOR ======================= -->
+  <section class="seccion dif" aria-labelledby="dif-tit">
+    <div class="contenedor dif-int">
+      <h2 class="dif-frase" id="dif-tit">
+        <span class="rev">No trabajamos con plantillas de catálogo.</span>
+        <span class="rev" style="--i:1">
+          Cada placa se diseña con el nombre, las fechas, el versículo y los detalles que usted
+          elija, y <span class="oro">se la mostramos antes de fabricarla</span>.
+        </span>
+      </h2>
+      <div class="acciones rev" style="--i:2">
+        <a class="btn" href={enlaceWhatsApp(MENSAJES_WHATSAPP.general)} target="_blank" rel="noopener">
+          <Icono nombre="whatsapp" tamano={17} /> Cotice sin compromiso
+        </a>
+        <a class="btn btn-linea" href="/como-pedir/">Cómo pedir su placa</a>
+      </div>
+    </div>
+  </section>
+
+  <Faq preguntas={FAQ_INICIO} class="claro" />
+
+  <Formulario />
+</Base>
+
+<style>
+  /* ---------------- Héroe ---------------- */
+  .heroe {
+    padding-block: clamp(3rem, 7vw, 6rem) clamp(3.5rem, 8vw, 7rem);
+    border-bottom: 1px solid var(--borde);
+    overflow: hidden;
+  }
+  .heroe-int {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: clamp(2.5rem, 6vw, 4rem);
+    align-items: center;
+  }
+  .heroe-h1 {
+    display: grid;
+    font-size: clamp(2.7rem, 1.4rem + 5.4vw, 6.2rem);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    margin-top: 1.1rem;
+  }
+  .heroe-filete {
+    width: min(100%, 14rem);
+    margin-block: 1.8rem 1.6rem;
+  }
+  .heroe .acciones {
+    margin-top: 2rem;
+  }
+
+  .heroe-foto {
+    margin: 0;
+    position: relative;
+  }
+  .heroe-foto :global(img) {
+    width: 100%;
+    height: auto;
+    border: 1px solid color-mix(in srgb, var(--oro) 30%, transparent);
+    box-shadow:
+      0 40px 80px -30px rgba(0, 0, 0, 0.9),
+      0 0 120px -40px rgba(201, 162, 74, 0.28);
+  }
+  .heroe-foto figcaption {
+    margin-top: 0.9rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--txt-3);
+  }
+
+  @media (min-width: 64rem) {
+    .heroe-int {
+      grid-template-columns: 1fr 1.05fr;
+      gap: 4.5rem;
+    }
+    .heroe-txt {
+      padding-left: 4%;
+    }
+    .heroe-foto {
+      margin-right: -4vw;
+    }
+  }
+
+  /* ---------------- Confianza ---------------- */
+  .confianza {
+    border-bottom: 1px solid var(--borde);
+    background: var(--negro-2);
+  }
+  .confianza-int {
+    display: grid;
+    gap: 0.7rem;
+    padding-block: 1.4rem;
+    font-size: 0.875rem;
+    color: var(--txt-2);
+  }
+  .confianza p {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+  .punto {
+    width: 5px;
+    height: 5px;
+    flex: none;
+    background: var(--oro);
+    rotate: 45deg;
+  }
+  @media (min-width: 52rem) {
+    .confianza-int {
+      grid-template-columns: repeat(3, auto);
+      justify-content: space-between;
+      gap: 2rem;
+    }
+  }
+
+  /* ---------------- Encabezados de sección ---------------- */
+  .cab {
+    display: grid;
+    gap: 1.2rem;
+    align-items: end;
+  }
+  .cab-nota {
+    color: var(--txt-3);
+    max-width: 34ch;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+  .claro .cab-nota {
+    color: var(--txt-claro-2);
+  }
+  .cab-filete {
+    margin-block: 2rem 3rem;
+  }
+  @media (min-width: 56rem) {
+    .cab {
+      grid-template-columns: 1.6fr 1fr;
+      gap: 3rem;
+    }
+    .cab-nota {
+      justify-self: end;
+    }
+  }
+
+  .rejilla-prod {
+    display: grid;
+    gap: 1.5rem;
+  }
+  @media (min-width: 40rem) {
+    .rejilla-prod {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 68rem) {
+    .rejilla-prod {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* ---------------- Bloques alternados ---------------- */
+  .bloques {
+    background: var(--negro-2);
+    border-block: 1px solid var(--borde);
+  }
+  .bloque {
+    display: grid;
+    gap: clamp(1.8rem, 4vw, 3.5rem);
+    align-items: center;
+  }
+  .bloque + .bloque {
+    margin-top: var(--aire);
+  }
+  .bloque-img :global(img) {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--borde);
+  }
+  .bloque-txt p {
+    color: var(--txt-2);
+    max-width: 44ch;
+  }
+  .bloque-filete {
+    margin-block: 1.3rem;
+    max-width: 8rem;
+  }
+  .bloque-txt .enlace {
+    margin-top: 1.6rem;
+  }
+  .bloque-txt .subtitulo {
+    margin-top: 0.7rem;
+  }
+  @media (min-width: 60rem) {
+    .bloque {
+      grid-template-columns: 1.1fr 1fr;
+    }
+    .bloque-inv .bloque-img {
+      order: 2;
+    }
+  }
+
+  /* ---------------- El libro abierto ---------------- */
+  .libro-sec {
+    padding-block: var(--aire);
+    border-bottom: 1px solid var(--borde);
+  }
+  .libro-sec > .contenedor {
+    position: relative;
+    z-index: 1;
+  }
+  .libro-cab {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+    max-width: 46rem;
+  }
+  .libro {
+    display: grid;
+    gap: 0;
+    background: linear-gradient(170deg, #16271f 0%, #1f3a30 45%, #142019 100%);
+    border: 1px solid color-mix(in srgb, var(--oro) 35%, transparent);
+    box-shadow:
+      0 50px 90px -40px rgba(0, 0, 0, 0.95),
+      inset 0 0 90px rgba(0, 0, 0, 0.45);
+    position: relative;
+  }
+  .libro::before,
+  .libro::after {
+    content: '';
+    position: absolute;
+    inset: 0.55rem;
+    border: 1px solid color-mix(in srgb, var(--oro) 28%, transparent);
+    pointer-events: none;
+  }
+  .libro::after {
+    inset: 0.95rem;
+    border-color: color-mix(in srgb, var(--oro) 14%, transparent);
+  }
+  .pagina {
+    padding: clamp(2.2rem, 5vw, 3.6rem) clamp(1.8rem, 4vw, 3rem);
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 1.1rem;
+    text-align: center;
+  }
+  .verso {
+    font-family: var(--serif);
+    font-size: clamp(1.25rem, 1rem + 1.4vw, 1.9rem);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    color: var(--oro-claro);
+    max-width: 22ch;
+    text-wrap: balance;
+  }
+  .cita {
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--oro) 80%, var(--txt-3));
+  }
+  .lomo {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 0, 0, 0.55) 35%,
+      rgba(0, 0, 0, 0.7) 50%,
+      rgba(0, 0, 0, 0.55) 65%,
+      transparent
+    );
+    min-height: 1px;
+  }
+  .libro-nota {
+    margin-top: 2rem;
+    color: var(--txt-2);
+    max-width: 52ch;
+  }
+  @media (min-width: 48rem) {
+    .libro {
+      grid-template-columns: 1fr 2px 1fr;
+    }
+  }
+  @media (max-width: 48rem) {
+    .lomo {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.6), transparent);
+      margin-inline: 2.5rem;
+    }
+  }
+
+  /* ---------------- Temas ---------------- */
+  .temas {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .temas a {
+    display: grid;
+    justify-items: center;
+    gap: 0.9rem;
+    padding: 1.8rem 1rem;
+    text-align: center;
+    text-decoration: none;
+    border: 1px solid var(--borde);
+    background: var(--negro-2);
+    color: var(--txt-2);
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
+    transition:
+      border-color 0.45s var(--quart),
+      color 0.45s var(--quart),
+      transform 0.55s var(--expo);
+  }
+  .temas a :global(svg) {
+    color: var(--oro);
+    transition: transform 0.6s var(--expo);
+  }
+  .temas a:hover {
+    border-color: color-mix(in srgb, var(--oro) 48%, transparent);
+    color: var(--oro-claro);
+    transform: translateY(-3px);
+  }
+  .temas a:hover :global(svg) {
+    transform: scale(1.08);
+  }
+  @media (min-width: 46rem) {
+    .temas {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  @media (min-width: 68rem) {
+    .temas {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+
+  .gal-acc {
+    margin-top: 2.5rem;
+  }
+
+  /* ---------------- Diferenciador ---------------- */
+  .dif {
+    border-top: 1px solid var(--borde);
+  }
+  .dif-int {
+    display: grid;
+    gap: 2.2rem;
+    max-width: 52rem;
+  }
+  .dif-frase {
+    display: grid;
+    gap: 0.9rem;
+    font-size: clamp(1.6rem, 1.1rem + 2.2vw, 2.8rem);
+    line-height: 1.22;
+    letter-spacing: -0.02em;
+  }
+  .dif-frase span span {
+    display: inline;
+  }
+  .dif-frase > span:last-child {
+    color: var(--txt-2);
+    font-size: 0.78em;
+  }
+  .dif-frase .oro {
+    color: var(--oro-claro);
+  }
+</style>

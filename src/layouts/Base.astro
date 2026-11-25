@@ -1,0 +1,132 @@
+---
+import '../styles/global.css';
+import Encabezado from '../components/Encabezado.astro';
+import Pie from '../components/Pie.astro';
+import BotonFlotante from '../components/BotonFlotante.astro';
+import { DOMINIO, NEGOCIO } from '../data/sitio';
+import { grafo, localBusiness, breadcrumbs, type Miga } from '../lib/schema';
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  /** Ruta de la imagen Open Graph dentro de /og/. */
+  og?: string;
+  migas?: Miga[];
+  /** Nodos extra de JSON-LD (Service, FAQPage, …). */
+  schema?: object[];
+  mensajeWhatsApp?: string;
+  noindex?: boolean;
+}
+
+const {
+  titulo,
+  descripcion,
+  og = '/og/inicio.jpg',
+  migas,
+  schema = [],
+  mensajeWhatsApp,
+  noindex = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, DOMINIO).href;
+const ogAbs = new URL(og, DOMINIO).href;
+
+const nodos: object[] = [
+  localBusiness(),
+  ...(migas && migas.length > 1 ? [breadcrumbs(migas)] : []),
+  ...schema,
+];
+---
+
+<!doctype html>
+<html lang="es-HN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content="#0b0b0b" />
+    <meta name="author" content={NEGOCIO.nombre} />
+    <meta name="geo.region" content="HN-FM" />
+    <meta name="geo.placename" content="Tegucigalpa" />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <link
+      rel="preload"
+      href="/fuentes/cormorant-garamond-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fuentes/instrument-sans-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fuentes/great-vibes-wordmark.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={NEGOCIO.nombre} />
+    <meta property="og:locale" content="es_HN" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogAbs} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${NEGOCIO.nombre} — ${titulo}`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titulo} />
+    <meta name="twitter:description" content={descripcion} />
+    <meta name="twitter:image" content={ogAbs} />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script type="application/ld+json" is:inline set:html={grafo(nodos)} />
+  </head>
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    <Encabezado />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Pie />
+    <BotonFlotante mensaje={mensajeWhatsApp} />
+
+    <script>
+      // Revelado progresivo. Una sola observación por elemento, sin librerías.
+      const elementos = document.querySelectorAll('.rev, .rev-filete');
+      if (elementos.length) {
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          elementos.forEach((el) => el.classList.add('visible'));
+        } else {
+          const obs = new IntersectionObserver(
+            (entradas) => {
+              for (const e of entradas) {
+                if (e.isIntersecting) {
+                  e.target.classList.add('visible');
+                  obs.unobserve(e.target);
+                }
+              }
+            },
+            { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+          );
+          elementos.forEach((el) => obs.observe(el));
+        }
+      }
+    </script>
+  </body>
+</html>

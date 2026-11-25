@@ -1,0 +1,286 @@
+---
+import Icono from './Icono.astro';
+import { OPCIONES_FORMULARIO } from '../data/productos';
+import { NEGOCIO } from '../data/sitio';
+
+interface Props {
+  /** Opción preseleccionada en el desplegable de producto. */
+  productoPorDefecto?: string;
+  id?: string;
+  class?: string;
+}
+const { productoPorDefecto = '', id = 'cotizar', class: clase = '' } = Astro.props;
+---
+
+<section class={`seccion cotiza ${clase}`} id={id} aria-labelledby={`${id}-tit`}>
+  <div class="contenedor cotiza-int">
+    <div class="cotiza-cab">
+      <p class="etiqueta rev">Cotización sin compromiso</p>
+      <h2 class="titulo rev" id={`${id}-tit`} style="--i:1">Pida su cotización</h2>
+      <hr class="filete rev-filete cotiza-filete" style="--i:2" />
+      <p class="entrada rev" style="--i:3">
+        Llene lo que sepa. Al enviar se abre WhatsApp con el mensaje ya escrito y usted solo lo
+        manda. No se guarda nada en esta página.
+      </p>
+      <p class="aviso rev" style="--i:4">
+        <Icono nombre="whatsapp" tamano={16} />
+        <span>La fotografía se adjunta después, directamente en el chat de WhatsApp.</span>
+      </p>
+    </div>
+
+    <form class="rev" data-form-whatsapp novalidate style="--i:1">
+      <div class="campo">
+        <label for="f-nombre">Su nombre <span class="req" aria-hidden="true">*</span></label>
+        <input id="f-nombre" name="nombre" type="text" autocomplete="name" required />
+        <p class="error" data-error-de="nombre" hidden>Por favor escriba su nombre.</p>
+      </div>
+
+      <div class="campo">
+        <label for="f-producto">¿Qué necesita? <span class="req" aria-hidden="true">*</span></label>
+        <div class="select">
+          <select id="f-producto" name="producto" required>
+            <option value="" disabled selected={!productoPorDefecto}>Elija una opción</option>
+            {
+              OPCIONES_FORMULARIO.map((o) => (
+                <option value={o} selected={o === productoPorDefecto}>
+                  {o}
+                </option>
+              ))
+            }
+          </select>
+        </div>
+        <p class="error" data-error-de="producto" hidden>Por favor elija una opción.</p>
+      </div>
+
+      <div class="campo">
+        <label for="f-medida">Medida aproximada <span class="opc">(si la sabe)</span></label>
+        <input id="f-medida" name="medida" type="text" placeholder="Por ejemplo: 50 × 40 cm" />
+      </div>
+
+      <div class="campo">
+        <label for="f-ser">Nombre de su ser querido <span class="opc">(opcional)</span></label>
+        <input id="f-ser" name="ser" type="text" />
+      </div>
+
+      <div class="campo">
+        <label for="f-fechas">Fechas <span class="opc">(nacimiento y fallecimiento)</span></label>
+        <input id="f-fechas" name="fechas" type="text" placeholder="12 de enero de 1964 — 25 de febrero de 2008" />
+      </div>
+
+      <div class="campo campo-ancho">
+        <label for="f-frase">Frase o versículo <span class="opc">(opcional)</span></label>
+        <input id="f-frase" name="frase" type="text" placeholder="San Juan 11:25, Salmo 23, una dedicatoria…" />
+      </div>
+
+      <div class="campo campo-ancho">
+        <label for="f-comentarios">Comentarios <span class="opc">(opcional)</span></label>
+        <textarea id="f-comentarios" name="comentarios" rows="4" placeholder="Iconografía que le gustaría, color del grabado, fecha en que la necesita…"></textarea>
+      </div>
+
+      <div class="campo-ancho envio">
+        <button class="btn" type="submit">
+          <Icono nombre="whatsapp" tamano={17} /> Enviar por WhatsApp
+        </button>
+        <p class="pie-form">
+          O llame al <a href={NEGOCIO.telefonoHref}>{NEGOCIO.telefono}</a> en horario de taller.
+        </p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<style>
+  .cotiza-int {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .cotiza-filete {
+    margin-block: 1.5rem;
+    max-width: 10rem;
+  }
+  .aviso {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid color-mix(in srgb, var(--oro) 28%, transparent);
+    border-radius: var(--borde-r);
+    background: color-mix(in srgb, var(--oro) 7%, transparent);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--txt-2);
+    max-width: 34rem;
+  }
+  .aviso :global(svg) {
+    color: var(--oro);
+    flex: none;
+    margin-top: 0.15rem;
+  }
+
+  form {
+    display: grid;
+    gap: 1.1rem;
+  }
+  .campo {
+    display: grid;
+    gap: 0.4rem;
+  }
+  label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--txt-2);
+  }
+  .req {
+    color: var(--oro);
+  }
+  .opc {
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--txt-3);
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: var(--negro-2);
+    border: 1px solid var(--borde);
+    border-radius: var(--borde-r);
+    color: var(--txt);
+    font-size: 1rem;
+    transition:
+      border-color 0.35s var(--quart),
+      background-color 0.35s var(--quart);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 7rem;
+    font-family: inherit;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: #6b665e;
+  }
+  input:hover,
+  textarea:hover,
+  select:hover {
+    border-color: color-mix(in srgb, var(--oro) 35%, transparent);
+  }
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    border-color: var(--oro);
+    background: var(--carbon);
+  }
+  input[aria-invalid='true'],
+  select[aria-invalid='true'] {
+    border-color: #c96b5a;
+  }
+
+  .select {
+    position: relative;
+  }
+  select {
+    appearance: none;
+    padding-right: 2.6rem;
+    cursor: pointer;
+  }
+  .select::after {
+    content: '';
+    position: absolute;
+    right: 1.05rem;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-right: 1.5px solid var(--oro);
+    border-bottom: 1.5px solid var(--oro);
+    transform: translateY(-70%) rotate(45deg);
+    pointer-events: none;
+  }
+
+  .error {
+    font-size: 0.8125rem;
+    color: #e0917f;
+  }
+
+  .envio {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.6rem;
+  }
+  .pie-form {
+    font-size: 0.875rem;
+    color: var(--txt-3);
+  }
+  .pie-form a {
+    color: var(--oro-texto);
+  }
+
+  @media (min-width: 34rem) {
+    form {
+      grid-template-columns: 1fr 1fr;
+      gap: 1.1rem 1.25rem;
+    }
+    .campo-ancho {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (min-width: 62rem) {
+    .cotiza-int {
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 4rem;
+    }
+  }
+</style>
+
+<script is:inline define:vars={{ WA: NEGOCIO.whatsapp }}>
+  document.querySelectorAll('[data-form-whatsapp]').forEach((form) => {
+    const marcarError = (campo, visible) => {
+      const el = form.elements[campo];
+      const msg = form.querySelector(`[data-error-de="${campo}"]`);
+      if (el) el.setAttribute('aria-invalid', visible ? 'true' : 'false');
+      if (msg) msg.hidden = !visible;
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const d = new FormData(form);
+      const v = (k) => String(d.get(k) ?? '').trim();
+
+      const nombre = v('nombre');
+      const producto = v('producto');
+      marcarError('nombre', !nombre);
+      marcarError('producto', !producto);
+      if (!nombre || !producto) {
+        (!nombre ? form.elements['nombre'] : form.elements['producto']).focus();
+        return;
+      }
+
+      const lineas = [
+        'Buenos días, le escribo desde el sitio web de Arte y Recuerdo.',
+        '',
+        `Mi nombre: ${nombre}`,
+        `Lo que necesito: ${producto}`,
+      ];
+      if (v('medida')) lineas.push(`Medida aproximada: ${v('medida')}`);
+      if (v('ser')) lineas.push(`Nombre de mi ser querido: ${v('ser')}`);
+      if (v('fechas')) lineas.push(`Fechas: ${v('fechas')}`);
+      if (v('frase')) lineas.push(`Frase o versículo: ${v('frase')}`);
+      if (v('comentarios')) lineas.push('', `Comentarios: ${v('comentarios')}`);
+      lineas.push('', 'Quedo atento(a) a su cotización. Muchas gracias.');
+
+      window.location.href = `${WA}?text=${encodeURIComponent(lineas.join('\n'))}`;
+    });
+
+    form.addEventListener('input', (e) => {
+      const n = e.target.name;
+      if (n === 'nombre' || n === 'producto') marcarError(n, false);
+    });
+  });
+</script>

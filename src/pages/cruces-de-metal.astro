@@ -1,0 +1,72 @@
+---
+import Producto from '../layouts/Producto.astro';
+import Aparte from '../components/Aparte.astro';
+import { productoPorId } from '../data/productos';
+
+const producto = productoPorId('cruces');
+---
+
+<Producto
+  producto={producto}
+  titulo="Cruces de Hierro para Cementerio | Arte y Recuerdo"
+  descripcion="Cruces de metal forjado a mano para tumbas en Tegucigalpa, con detalles en dorado y acabado para exteriores. Cotice sin compromiso al 9751-3752."
+  entrada="Cruces de hierro forjado a mano, con volutas y apliques en dorado, hechas a la altura de la tumba y acabadas para aguantar la intemperie."
+  og="/og/cruces-de-metal.jpg"
+>
+  <h2>Forjadas a mano, una por una</h2>
+  <p>
+    La cruz es lo primero que se ve al llegar a la tumba. En el taller las hacemos de hierro
+    forjado, doblando y soldando pieza por pieza, con las volutas abiertas en los extremos de los
+    brazos y los apliques en dorado que distinguen nuestro trabajo. No salen de molde: cada una se
+    arma a la medida del espacio.
+  </p>
+
+  <h2>Medida y montaje</h2>
+  <p>
+    La altura se decide según dónde vaya. Hay dos formas de montarla:
+  </p>
+  <ul>
+    <li>
+      <strong>Para enterrar.</strong> Con la espiga larga, cuando la tumba es de tierra. Queda
+      firme y se puede enderezar con los años.
+    </li>
+    <li>
+      <strong>Para fijar.</strong> Con base plana atornillada o empotrada, cuando la lápida es de
+      concreto o de piedra.
+    </li>
+  </ul>
+  <p>
+    Si nos manda una fotografía de la tumba por WhatsApp, le decimos qué altura y qué montaje
+    quedan mejor.
+  </p>
+
+  <h2>Acabado para la intemperie</h2>
+  <p>
+    El hierro se limpia, se trata y se pinta con esmalte para exteriores, en negro mate, y los
+    detalles se resaltan en dorado. Ese acabado es el que evita que la cruz se oxide a la primera
+    temporada de lluvias. Con el tiempo, si quiere, se le puede dar una mano nueva de pintura y
+    queda como el primer día.
+  </p>
+
+  <h2>Combinada con la placa</h2>
+  <p>
+    Muchas familias piden la cruz junto con la
+    <a href="/placas-de-marmol/">placa de mármol</a>, de modo que el conjunto se vea pensado: la
+    cruz detrás o a un costado, la placa al frente y un
+    <a href="/floreros-y-flores/">florero</a> al pie. Si ya tiene la placa puesta, también podemos
+    hacer la cruz para que combine con el grabado que ya lleva.
+  </p>
+
+  <h2>Cuidado</h2>
+  <p>
+    Basta con pasarle un paño seco de vez en cuando y revisar la base una vez al año. Si nota
+    puntos de óxido, avísenos: se retocan y no avanzan.
+  </p>
+  <p>
+    Trabajamos para Tegucigalpa, Comayagüela y los alrededores. Para empezar solo hace falta una
+    foto del lugar y la medida aproximada; el resto se lo explicamos en
+    <a href="/como-pedir/">cómo pedir</a>.
+  </p>
+
+  <Aparte slot="aparte" producto="cruces" />
+</Producto>

@@ -1,0 +1,371 @@
+---
+import Monograma from './Monograma.astro';
+import Icono from './Icono.astro';
+import { NAV, NEGOCIO, enlaceWhatsApp, MENSAJES_WHATSAPP } from '../data/sitio';
+
+const ruta = Astro.url.pathname;
+const activo = (href: string) => ruta === href;
+const PRINCIPALES = ['/placas-de-marmol/', '/placas-con-fotografia/', '/cruces-de-metal/', '/trabajos/', '/como-pedir/', '/contacto/'];
+const navEscritorio = NAV.filter((n) => PRINCIPALES.includes(n.href));
+---
+
+<header class="enc" id="enc" data-encabezado>
+  <div class="enc-int contenedor-ancho">
+    <a class="marca" href="/">
+      <Monograma tamano={40} />
+      <span class="marca-txt">
+        <span class="firma">Arte y Recuerdo</span>
+        <span class="marca-sub">Placas · Cruces · Floreros</span>
+        <span class="solo-lectores">Ir al inicio</span>
+      </span>
+    </a>
+
+    <nav class="nav-esc" aria-label="Principal">
+      <ul>
+        {
+          navEscritorio.map((n) => (
+            <li>
+              <a href={n.href} aria-current={activo(n.href) ? 'page' : undefined}>
+                {n.texto}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="enc-acc">
+      <a class="tel" href={NEGOCIO.telefonoHref}>
+        <Icono nombre="telefono" tamano={16} />
+        <span>{NEGOCIO.telefono}</span>
+      </a>
+      <a
+        class="btn btn-cot"
+        href={enlaceWhatsApp(MENSAJES_WHATSAPP.general)}
+        target="_blank"
+        rel="noopener"
+      >
+        <Icono nombre="whatsapp" tamano={17} />
+        Cotizar
+      </a>
+      <button class="hamb" type="button" aria-expanded="false" aria-controls="menu-movil" data-abrir>
+        <span class="solo-lectores">Abrir el menú</span>
+        <span class="hamb-l" aria-hidden="true"></span>
+        <span class="hamb-l" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu" id="menu-movil" hidden data-menu>
+  <div class="menu-cab contenedor">
+    <span class="firma menu-firma">Arte y Recuerdo</span>
+    <button class="cerrar" type="button" data-cerrar>
+      <span class="solo-lectores">Cerrar el menú</span>
+      <Icono nombre="cerrar" tamano={22} />
+    </button>
+  </div>
+  <nav class="menu-nav contenedor" aria-label="Menú">
+    <ul>
+      {
+        NAV.map((n, i) => (
+          <li style={`--i:${i}`}>
+            <a href={n.href} aria-current={activo(n.href) ? 'page' : undefined}>
+              <span>{n.texto}</span>
+              <Icono nombre="flecha" tamano={18} />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="menu-pie">
+      <a class="btn btn-bloque" href={enlaceWhatsApp(MENSAJES_WHATSAPP.general)} target="_blank" rel="noopener">
+        <Icono nombre="whatsapp" tamano={17} /> Cotizar por WhatsApp
+      </a>
+      <a class="btn btn-linea btn-bloque" href={NEGOCIO.telefonoHref}>
+        <Icono nombre="telefono" tamano={16} /> {NEGOCIO.telefono}
+      </a>
+    </div>
+  </nav>
+</div>
+
+<style>
+  .enc {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    background: color-mix(in srgb, var(--negro) 72%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color 0.5s var(--quart),
+      border-color 0.5s var(--quart);
+  }
+  .enc[data-fijo] {
+    background: color-mix(in srgb, var(--negro) 94%, transparent);
+    border-bottom-color: color-mix(in srgb, var(--oro) 18%, transparent);
+  }
+  .enc-int {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 4.5rem;
+    padding-block: 0.6rem;
+  }
+
+  .marca {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+    margin-right: auto;
+  }
+  .marca-txt {
+    display: flex;
+    flex-direction: column;
+  }
+  .marca .firma {
+    font-size: 1.5rem;
+    color: var(--oro-claro);
+    line-height: 1;
+  }
+  .marca-sub {
+    font-size: 0.5625rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--txt-3);
+    margin-top: 0.2rem;
+  }
+
+  .nav-esc {
+    display: none;
+  }
+  .nav-esc ul {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    padding: 0;
+  }
+  .nav-esc a {
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    color: var(--txt-2);
+    text-decoration: none;
+    padding-block: 0.4rem;
+    position: relative;
+    transition: color 0.35s var(--quart);
+  }
+  .nav-esc a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 1px;
+    width: 100%;
+    background: var(--oro);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.45s var(--expo);
+  }
+  .nav-esc a:hover,
+  .nav-esc a[aria-current='page'] {
+    color: var(--oro-claro);
+  }
+  .nav-esc a:hover::after,
+  .nav-esc a[aria-current='page']::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .enc-acc {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .tel {
+    display: none;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--oro-texto);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .tel:hover {
+    color: var(--oro-claro);
+  }
+  .btn-cot {
+    display: none;
+  }
+
+  .hamb {
+    width: 2.75rem;
+    height: 2.75rem;
+    display: grid;
+    place-content: center;
+    gap: 6px;
+    background: none;
+    border: 1px solid color-mix(in srgb, var(--oro) 30%, transparent);
+    border-radius: var(--borde-r);
+    cursor: pointer;
+  }
+  .hamb-l {
+    display: block;
+    width: 18px;
+    height: 1.5px;
+    background: var(--oro-claro);
+    transition: transform 0.4s var(--expo);
+  }
+
+  /* --- Menú móvil --- */
+  .menu {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    background: var(--mármol);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    opacity: 0;
+    transition: opacity 0.4s var(--quart);
+  }
+  .menu[data-visible] {
+    opacity: 1;
+  }
+  .menu-cab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 4.5rem;
+    border-bottom: 1px solid var(--borde);
+  }
+  .menu-firma {
+    font-size: 1.6rem;
+    color: var(--oro-claro);
+  }
+  .cerrar {
+    width: 2.75rem;
+    height: 2.75rem;
+    display: grid;
+    place-content: center;
+    background: none;
+    border: 1px solid color-mix(in srgb, var(--oro) 30%, transparent);
+    border-radius: var(--borde-r);
+    color: var(--oro-claro);
+    cursor: pointer;
+  }
+  .menu-nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-block: 1.5rem 2.5rem;
+  }
+  .menu-nav ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+  }
+  .menu-nav li + li {
+    border-top: 1px solid color-mix(in srgb, var(--borde) 70%, transparent);
+  }
+  .menu-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.95rem 0;
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    letter-spacing: -0.015em;
+    color: var(--txt);
+    text-decoration: none;
+    transition: color 0.3s var(--quart);
+  }
+  .menu-nav a :global(svg) {
+    color: var(--oro);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition:
+      opacity 0.4s var(--expo),
+      transform 0.4s var(--expo);
+  }
+  .menu-nav a:hover,
+  .menu-nav a[aria-current='page'] {
+    color: var(--oro-claro);
+  }
+  .menu-nav a:hover :global(svg),
+  .menu-nav a[aria-current='page'] :global(svg) {
+    opacity: 1;
+    transform: none;
+  }
+  .menu[data-visible] .menu-nav li {
+    animation: sube 0.6s var(--expo) both;
+    animation-delay: calc(60ms + var(--i) * 45ms);
+  }
+  .menu-pie {
+    display: grid;
+    gap: 0.6rem;
+    margin-top: auto;
+  }
+
+  @media (min-width: 46rem) {
+    .tel {
+      display: flex;
+    }
+    .btn-cot {
+      display: inline-flex;
+    }
+  }
+  @media (min-width: 70rem) {
+    .nav-esc {
+      display: block;
+    }
+    .hamb {
+      display: none;
+    }
+    .enc-int {
+      gap: 2rem;
+    }
+  }
+</style>
+
+<script>
+  // Estado del encabezado al hacer scroll + menú móvil. Nada más.
+  const enc = document.querySelector<HTMLElement>('[data-encabezado]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  const abrir = document.querySelector<HTMLButtonElement>('[data-abrir]');
+  const cerrar = document.querySelector<HTMLButtonElement>('[data-cerrar]');
+
+  if (enc) {
+    const marcar = () => enc.toggleAttribute('data-fijo', window.scrollY > 24);
+    marcar();
+    window.addEventListener('scroll', marcar, { passive: true });
+  }
+
+  if (menu && abrir && cerrar) {
+    const abrirMenu = () => {
+      menu.hidden = false;
+      requestAnimationFrame(() => menu.setAttribute('data-visible', ''));
+      abrir.setAttribute('aria-expanded', 'true');
+      document.documentElement.style.overflow = 'hidden';
+      cerrar.focus();
+    };
+    const cerrarMenu = () => {
+      menu.removeAttribute('data-visible');
+      abrir.setAttribute('aria-expanded', 'false');
+      document.documentElement.style.overflow = '';
+      setTimeout(() => (menu.hidden = true), 300);
+      abrir.focus();
+    };
+    abrir.addEventListener('click', abrirMenu);
+    cerrar.addEventListener('click', cerrarMenu);
+    menu.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) cerrarMenu();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !menu.hidden) cerrarMenu();
+    });
+  }
+</script>

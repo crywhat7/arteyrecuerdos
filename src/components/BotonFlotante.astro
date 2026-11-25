@@ -1,0 +1,83 @@
+---
+import Icono from './Icono.astro';
+import { enlaceWhatsApp, MENSAJES_WHATSAPP } from '../data/sitio';
+
+interface Props {
+  mensaje?: string;
+}
+const { mensaje = MENSAJES_WHATSAPP.general } = Astro.props;
+---
+
+<a class="flotante" href={enlaceWhatsApp(mensaje)} target="_blank" rel="noopener" data-flotante>
+  <Icono nombre="whatsapp" tamano={20} />
+  <span>Cotizar</span>
+</a>
+
+<style>
+  .flotante {
+    position: fixed;
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: calc(1rem + env(safe-area-inset-bottom));
+    z-index: 50;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.15rem;
+    border-radius: 999px;
+    background: var(--oro);
+    color: #150f05;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    box-shadow:
+      0 10px 30px rgba(0, 0, 0, 0.55),
+      0 0 0 1px rgba(230, 199, 122, 0.35);
+    transform: translateY(0);
+    transition:
+      transform 0.5s var(--expo),
+      opacity 0.4s var(--quart),
+      background-color 0.4s var(--quart);
+  }
+  .flotante:hover {
+    background: var(--oro-claro);
+  }
+  /* Se esconde mientras se baja, para no tapar el contenido al leer. */
+  .flotante[data-oculto] {
+    transform: translateY(160%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @media (min-width: 46rem) {
+    .flotante {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const fab = document.querySelector<HTMLElement>('[data-flotante]');
+  if (fab) {
+    let ultimo = window.scrollY;
+    let pendiente = false;
+    const revisar = () => {
+      const y = window.scrollY;
+      // Baja → se esconde. Sube o está arriba del todo → aparece.
+      fab.toggleAttribute('data-oculto', y > ultimo && y > 320);
+      ultimo = y;
+      pendiente = false;
+    };
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!pendiente) {
+          pendiente = true;
+          requestAnimationFrame(revisar);
+        }
+      },
+      { passive: true }
+    );
+  }
+</script>

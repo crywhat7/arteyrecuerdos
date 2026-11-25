@@ -1,0 +1,86 @@
+---
+import Producto from '../layouts/Producto.astro';
+import Aparte from '../components/Aparte.astro';
+import { productoPorId } from '../data/productos';
+import { porId } from '../data/trabajos';
+
+const producto = productoPorId('marmol');
+const galeria = ['placa-02', 'placa-01', 'placa-08', 'placa-05', 'placa-03', 'placa-09'].map(porId);
+---
+
+<Producto
+  producto={producto}
+  titulo="Placas de Mármol para Lápidas, Tegucigalpa | Arte y Recuerdo"
+  descripcion="Placas de mármol verde o negro para lápidas y tumbas, con grabado dorado o plateado y el versículo que usted elija. Cotice sin compromiso al 9751-3752."
+  entrada="Mármol verde o negro, grabado a mano en dorado o plateado, con la forma, el versículo y la iconografía que su familia escoja."
+  og="/og/placas-de-marmol.jpg"
+  galeria={galeria}
+  tituloGaleria="Placas de mármol que hemos entregado"
+>
+  <h2>El material que mejor resiste el cementerio</h2>
+  <p>
+    El mármol es la primera opción de casi todas las familias que nos buscan, y con razón: aguanta
+    el sol, la lluvia y los años sin perder el pulido, y el grabado se mantiene legible por
+    décadas. En el taller trabajamos dos tonos, los mismos que usted ve en nuestras fotografías.
+  </p>
+  <h3>Mármol verde</h3>
+  <p>
+    Es el más pedido. Tiene vetas naturales claras que se mueven en cada pieza, así que no hay dos
+    placas iguales ni aunque el diseño sea el mismo. Sobre el verde oscuro, el grabado dorado se
+    lee con mucha claridad incluso a distancia.
+  </p>
+  <h3>Mármol negro</h3>
+  <p>
+    Más sobrio y más uniforme. Es el que mejor luce con letra cursiva grande y con grabado
+    plateado, cuando la familia busca algo discreto y elegante.
+  </p>
+
+  <h2>Formas que fabricamos</h2>
+  <p>
+    La forma cambia por completo el carácter de la placa, y no cuesta más elegir bien desde el
+    principio:
+  </p>
+  <ul>
+    <li>
+      <strong>Libro abierto.</strong> La más tradicional. En una página va el versículo y en la
+      otra el nombre y las fechas, con el lomo marcado y las hojas insinuadas en el borde.
+    </li>
+    <li>
+      <strong>Rectangular.</strong> Recta y limpia, con bordes ornamentales o sin ellos. Es la que
+      mejor se adapta cuando la lápida ya tiene un espacio marcado.
+    </li>
+    <li>
+      <strong>Arco.</strong> Con la parte superior redondeada, pensada para que la cruz o el ángel
+      queden centrados arriba.
+    </li>
+  </ul>
+
+  <h2>Acabado dorado o plateado</h2>
+  <p>
+    El grabado se rellena en dorado o en plateado. El dorado es cálido y es el que más se usa en
+    Honduras; el plateado da un efecto más sereno y combina muy bien con el mármol negro. Usted lo
+    decide al ver el diseño, y lo puede cambiar antes de que empecemos a fabricar.
+  </p>
+
+  <h2>Iconografía y versículos</h2>
+  <p>
+    Grabamos palomas con ramo de olivo, manos orando, ángeles, cruces, crucifijos, rosarios, rosas
+    y bordes ornamentales. Los versículos que más nos piden son San Juan 11:25, el Salmo 23,
+    Filipenses 1:21 y Gálatas 2:20, pero puede ser cualquier texto: una dedicatoria de los hijos,
+    una frase que la persona repetía o solo su nombre.
+  </p>
+
+  <h2>Medidas, cuidado y entrega</h2>
+  <p>
+    Fabricamos a la medida de la lápida. Si no sabe las medidas exactas, tome la foto del espacio y
+    mándenosla por WhatsApp: con eso le orientamos. Ya colocada, la placa se limpia con un paño
+    suave y agua; no conviene usar cloro, ácidos ni cepillos de metal, porque opacan el pulido.
+  </p>
+  <p>
+    Atendemos Tegucigalpa, Comayagüela y los alrededores de Francisco Morazán. Los tiempos dependen
+    del diseño y de la carga del taller, así que lo mejor es
+    <a href="/como-pedir/">escribirnos para que le demos la fecha estimada</a>.
+  </p>
+
+  <Aparte slot="aparte" producto="marmol" />
+</Producto>

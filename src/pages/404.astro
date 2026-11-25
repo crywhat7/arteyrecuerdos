@@ -1,0 +1,95 @@
+---
+import Base from '../layouts/Base.astro';
+import Icono from '../components/Icono.astro';
+import Monograma from '../components/Monograma.astro';
+import { NAV, enlaceWhatsApp, MENSAJES_WHATSAPP } from '../data/sitio';
+---
+
+<Base
+  titulo="Página no encontrada | Arte y Recuerdo"
+  descripcion="No encontramos la página que buscaba. Vuelva al inicio, revise nuestros trabajos o escríbanos por WhatsApp al 9751-3752: con gusto le ayudamos."
+  noindex
+>
+  <section class="e404 marmol">
+    <div class="contenedor e404-int">
+      <Monograma tamano={76} class="entra-suave" />
+      <p class="etiqueta entra" style="--d:150ms">Página no encontrada</p>
+      <h1 class="titulo entra" style="--d:250ms">
+        Esta página ya no está aquí,<br /><span class="oro-brillo">pero nosotros sí</span>
+      </h1>
+      <hr class="filete filete-centro entra-filete" style="--d:420ms" />
+      <p class="entrada entra" style="--d:500ms">
+        Puede que el enlace haya cambiado. Vuelva al inicio o escríbanos: le decimos exactamente
+        dónde encontrar lo que busca.
+      </p>
+      <div class="acciones entra" style="--d:620ms">
+        <a class="btn" href={enlaceWhatsApp(MENSAJES_WHATSAPP.general)} target="_blank" rel="noopener">
+          <Icono nombre="whatsapp" tamano={17} /> Escribirnos por WhatsApp
+        </a>
+        <a class="btn btn-linea" href="/">Volver al inicio</a>
+      </div>
+
+      <nav class="atajos entra" style="--d:740ms" aria-label="Páginas del sitio">
+        <ul>
+          {NAV.map((n) => <li><a href={n.href}>{n.texto}</a></li>)}
+        </ul>
+      </nav>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .e404 {
+    padding-block: clamp(4rem, 10vw, 8rem);
+    min-height: 68vh;
+    display: grid;
+    align-items: center;
+  }
+  .e404-int {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: 1.1rem;
+    max-width: 44rem;
+  }
+  .e404-int :global(.monograma) {
+    margin-bottom: 0.6rem;
+  }
+  .filete {
+    width: min(100%, 16rem);
+    transform-origin: center;
+    margin-block: 0.8rem;
+  }
+  .entrada {
+    max-width: 46ch;
+  }
+  .acciones {
+    justify-content: center;
+    margin-top: 0.8rem;
+  }
+  .atajos {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--borde);
+    width: 100%;
+  }
+  .atajos ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem 1.4rem;
+    list-style: none;
+    padding: 0;
+  }
+  .atajos a {
+    font-size: 0.875rem;
+    color: var(--txt-3);
+    text-decoration: none;
+    transition: color 0.3s var(--quart);
+  }
+  .atajos a:hover {
+    color: var(--oro-claro);
+  }
+</style>

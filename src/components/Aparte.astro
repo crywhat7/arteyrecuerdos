@@ -1,0 +1,138 @@
+---
+import Icono from './Icono.astro';
+import { productoPorId } from '../data/productos';
+import { enlaceWhatsApp, NEGOCIO } from '../data/sitio';
+
+interface Ficha {
+  filas: [string, string][];
+}
+
+const FICHAS: Record<string, Ficha> = {
+  marmol: {
+    filas: [
+      ['Material', 'Mármol verde o mármol negro'],
+      ['Acabado', 'Grabado dorado o plateado'],
+      ['Formas', 'Libro abierto, rectangular o arco'],
+      ['Medida', 'A la medida de la lápida'],
+      ['Extras', 'Fotografía, cruz, florero'],
+    ],
+  },
+  fotografia: {
+    filas: [
+      ['Medallón', 'Ovalado o rectangular'],
+      ['Base', 'Mármol verde o negro'],
+      ['Foto', 'La envía usted por WhatsApp'],
+      ['Acabado', 'Grabado dorado o plateado'],
+      ['Resistencia', 'Preparada para intemperie'],
+    ],
+  },
+  aluminio: {
+    filas: [
+      ['Material', 'Aluminio'],
+      ['Ventaja', 'Más liviana y económica'],
+      ['Uso', 'Nichos y lápidas sencillas'],
+      ['Medida', 'A la medida del espacio'],
+      ['Texto', 'Nombre, fechas y dedicatoria'],
+    ],
+  },
+  cruces: {
+    filas: [
+      ['Material', 'Hierro forjado'],
+      ['Detalles', 'Volutas y apliques en dorado'],
+      ['Acabado', 'Pintura para exteriores'],
+      ['Altura', 'A la medida de la tumba'],
+      ['Montaje', 'Para fijar o para enterrar'],
+    ],
+  },
+  floreros: {
+    filas: [
+      ['Floreros', 'Metal, para fijar a la lápida'],
+      ['Flores', 'Arreglos para tumba'],
+      ['Ocasiones', 'Aniversarios y Día de Difuntos'],
+      ['Juego', 'Combinan con la placa'],
+      ['Entrega', 'Consúltenos por WhatsApp'],
+    ],
+  },
+};
+
+interface Props {
+  producto: keyof typeof FICHAS;
+}
+const { producto } = Astro.props;
+const p = productoPorId(producto);
+const ficha = FICHAS[producto];
+---
+
+<div class="caja rev">
+  <h2 class="caja-tit">En resumen</h2>
+  <dl>
+    {
+      ficha.filas.map(([k, v]) => (
+        <div class="fila">
+          <dt>{k}</dt>
+          <dd>{v}</dd>
+        </div>
+      ))
+    }
+  </dl>
+  <a class="btn btn-bloque" href={enlaceWhatsApp(p.mensajeWhatsApp)} target="_blank" rel="noopener">
+    <Icono nombre="whatsapp" tamano={17} /> Cotizar sin compromiso
+  </a>
+  <p class="caja-pie">
+    <Icono nombre="reloj" tamano={15} />
+    <span>{NEGOCIO.horario[0].dias}: {NEGOCIO.horario[0].horas}</span>
+  </p>
+</div>
+
+<style>
+  .caja {
+    border: 1px solid var(--borde);
+    background: var(--negro-2);
+    padding: 1.6rem;
+  }
+  .caja-tit {
+    font-family: var(--sans);
+    font-size: var(--t-xs);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--oro-texto);
+    margin-bottom: 1.1rem;
+  }
+  dl {
+    display: grid;
+    gap: 0.7rem;
+    margin-bottom: 1.5rem;
+  }
+  .fila {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    gap: 0.8rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--borde) 65%, transparent);
+    font-size: 0.875rem;
+  }
+  .fila:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  dt {
+    color: var(--txt-3);
+    letter-spacing: 0.04em;
+  }
+  dd {
+    margin: 0;
+    color: var(--txt);
+  }
+  .caja-pie {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    font-size: 0.8125rem;
+    color: var(--txt-3);
+  }
+  .caja-pie :global(svg) {
+    color: var(--oro);
+  }
+</style>
